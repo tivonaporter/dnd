@@ -14,7 +14,14 @@ typedef enum : NSUInteger {
     SearchViewControllerTypeMonster
 } SearchViewControllerType;
 
+typedef enum : NSUInteger {
+    SearchViewControllerModeView,
+    SearchViewControllerModeAdd
+} SearchViewControllerMode;
+
 @interface SearchViewController : UIViewController
+
++ (instancetype)searchViewControllerWithMode:(SearchViewControllerMode)mode;
 
 @property (nonatomic, assign) SearchViewControllerType type;
 @property (nonatomic, copy) void (^selectionAction)(id selectedItem);

@@ -13,6 +13,7 @@
 #import <BKDeltaCalculator/BKDelta.h>
 
 #import "SearchViewController.h"
+#import "DetailViewController.h"
 #import "Spell.h"
 #import "Item.h"
 #import "Monster.h"
@@ -26,10 +27,19 @@
 @property (nonatomic, strong) NSArray *dataSource;
 @property (nonatomic, strong) ASTableNode *tableNode;
 @property (nonatomic, strong) dispatch_queue_t jobQueue;
+@property (nonatomic, assign) SearchViewControllerMode mode;
 
 @end
 
 @implementation SearchViewController
+
++ (instancetype)searchViewControllerWithMode:(SearchViewControllerMode)mode
+{
+    SearchViewController *viewController = [[SearchViewController alloc] init];
+    viewController.mode = mode;
+    
+    return viewController;
+}
 
 - (void)viewDidLoad
 {
@@ -38,8 +48,10 @@
     self.dataSource = [[NSArray alloc] init];
     self.jobQueue = dispatch_queue_create([[[NSUUID UUID] UUIDString] UTF8String], NULL);
     
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped)];
-    self.navigationItem.leftBarButtonItem = addButton;
+    if (self.mode == SearchViewControllerModeAdd) {
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped)];
+        self.navigationItem.leftBarButtonItem = cancelButton;
+    }
 
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
@@ -53,18 +65,37 @@
     self.tableNode.view.tableHeaderView = self.searchController.searchBar;
     [self.view addSubview:self.tableNode.view];
     
-    switch (self.type) {
-        case SearchViewControllerTypeSpell:
-            self.navigationItem.title = @"Add a Spell";
-            break;
-        case SearchViewControllerTypeItem:
-            self.navigationItem.title = @"Add an Item";
-            break;
-        case SearchViewControllerTypeMonster:
-            self.navigationItem.title = @"Add a Monster";
-            break;
-        default:
-            break;
+    switch (self.mode) {
+        case SearchViewControllerModeAdd:
+            switch (self.type) {
+                case SearchViewControllerTypeSpell:
+                    self.navigationItem.title = @"Add a Spell";
+                    break;
+                case SearchViewControllerTypeItem:
+                    self.navigationItem.title = @"Add an Item";
+                    break;
+                case SearchViewControllerTypeMonster:
+                    self.navigationItem.title = @"Add a Monster";
+                    break;
+                default:
+                    break;
+            }
+        break;
+        case SearchViewControllerModeView:
+            switch (self.type) {
+                case SearchViewControllerTypeSpell:
+                    self.navigationItem.title = @"Spells";
+                    break;
+                case SearchViewControllerTypeItem:
+                    self.navigationItem.title = @"Items";
+                    break;
+                case SearchViewControllerTypeMonster:
+                    self.navigationItem.title = @"Monsters";
+                    break;
+                default:
+                    break;
+            }
+        break;
     }
     
     [self updateSearchResults];

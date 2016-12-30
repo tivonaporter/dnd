@@ -10,6 +10,7 @@
 #import "CollectionViewController.h"
 #import "ImportManager.h"
 #import "RollManager.h"
+#import "SearchViewController.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -21,10 +22,36 @@
 {
     [ImportManager import];
     
+    SearchViewController *spellSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
+    spellSearchViewController.type = SearchViewControllerTypeSpell;
+    UINavigationController *spellNavigationController = [[UINavigationController alloc] initWithRootViewController:spellSearchViewController];
+    spellNavigationController.tabBarItem.title = @"Spells";
+    
+    SearchViewController *itemSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
+    itemSearchViewController.type = SearchViewControllerTypeItem;
+    UINavigationController *itemNavigationController = [[UINavigationController alloc] initWithRootViewController:itemSearchViewController];
+    itemNavigationController.tabBarItem.title = @"Items";
+    
+    SearchViewController *monsterSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
+    monsterSearchViewController.type = SearchViewControllerTypeMonster;
+    UINavigationController *monsterNavigationController = [[UINavigationController alloc] initWithRootViewController:monsterSearchViewController];
+    monsterNavigationController.tabBarItem.title = @"Monsters";
+    
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    
+    tabBarController.viewControllers = @[spellNavigationController, itemNavigationController, monsterNavigationController];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor blackColor];
+    self.window.rootViewController = tabBarController;
+    [self.window makeKeyAndVisible];
+    
+    /*
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
+     */
     return YES;
 }
 
