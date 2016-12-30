@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "DetailViewController.h"
+#import "CollectionViewController.h"
+#import "ImportManager.h"
+#import "RollManager.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -15,9 +17,10 @@
 
 @implementation AppDelegate
 
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [ImportManager import];
+    
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
@@ -56,12 +59,35 @@
 #pragma mark - Split view
 
 - (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
-    if ([secondaryViewController isKindOfClass:[UINavigationController class]] && [[(UINavigationController *)secondaryViewController topViewController] isKindOfClass:[DetailViewController class]] && ([(DetailViewController *)[(UINavigationController *)secondaryViewController topViewController] detailItem] == nil)) {
+    if ([secondaryViewController isKindOfClass:[UINavigationController class]] && [[(UINavigationController *)secondaryViewController topViewController] isKindOfClass:[CollectionViewController class]] && ([(CollectionViewController *)[(UINavigationController *)secondaryViewController topViewController] collection] == nil)) {
         // Return YES to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
         return YES;
     } else {
         return NO;
     }
+}
+
+#pragma mark - ASTextNodeDelegate
+
+- (void)textNode:(ASTextNode *)textNode tappedLinkAttribute:(NSString *)attribute value:(id)value atPoint:(CGPoint)point textRange:(NSRange)textRange
+{
+    NSNumber *result = @([RollManager resultOfRollString:value]);
+    NSString *title = [NSString stringWithFormat:@"You got a %@", [result stringValue]];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Woot" style:UIAlertActionStyleDefault handler:nil]];
+    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+}
+
+- (BOOL)textNode:(ASTextNode *)textNode shouldHighlightLinkAttribute:(NSString *)attribute value:(id)value atPoint:(CGPoint)point
+{
+    return YES;
+}
+
+#pragma mark - AppDelegate
+
++ (instancetype)sharedAppDelegate
+{
+    return (AppDelegate *)[UIApplication sharedApplication].delegate;
 }
 
 @end

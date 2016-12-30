@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class DetailViewController;
+@class CollectionViewController;
 
 @interface MasterViewController : UITableViewController
 
-@property (strong, nonatomic) DetailViewController *detailViewController;
-
+@property (strong, nonatomic) CollectionViewController *collectionViewController;
 
 @end
 

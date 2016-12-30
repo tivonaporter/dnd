@@ -2,7 +2,7 @@
 //  DetailViewController.h
 //  dnd
 //
-//  Created by Devon Tivona on 11/18/16.
+//  Created by Devon Tivona on 12/28/16.
 //  Copyright © 2016 Tivona & Porter. All rights reserved.
 //
 
@@ -10,8 +10,6 @@
 
 @interface DetailViewController : UIViewController
 
-@property (strong, nonatomic) NSDate *detailItem;
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+- (instancetype)initWithObject:(RLMObject *)object;
 
 @end
-

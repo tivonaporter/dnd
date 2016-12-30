@@ -1,0 +1,51 @@
+PODS:
+  - AsyncDisplayKit (2.0-beta.1):
+    - AsyncDisplayKit/PINRemoteImage (= 2.0-beta.1)
+  - AsyncDisplayKit/ASDealloc2MainObject (2.0-beta.1)
+  - AsyncDisplayKit/Core (2.0-beta.1):
+    - AsyncDisplayKit/ASDealloc2MainObject
+  - AsyncDisplayKit/PINRemoteImage (2.0-beta.1):
+    - AsyncDisplayKit/Core
+    - PINRemoteImage/iOS (= 3.0.0-beta.6)
+    - PINRemoteImage/PINCache
+  - BKDeltaCalculator (1.1.2)
+  - Masonry (1.0.2)
+  - MBProgressHUD (1.0.0)
+  - Ono (1.2.2)
+  - PINCache (3.0.1-beta.2):
+    - PINCache/Arc-exception-safe (= 3.0.1-beta.2)
+    - PINCache/Core (= 3.0.1-beta.2)
+  - PINCache/Arc-exception-safe (3.0.1-beta.2):
+    - PINCache/Core
+  - PINCache/Core (3.0.1-beta.2)
+  - PINRemoteImage/Core (3.0.0-beta.6)
+  - PINRemoteImage/iOS (3.0.0-beta.6):
+    - PINRemoteImage/Core
+  - PINRemoteImage/PINCache (3.0.0-beta.6):
+    - PINCache (= 3.0.1-beta.2)
+    - PINRemoteImage/Core
+  - Realm (2.0.3):
+    - Realm/Headers (= 2.0.3)
+  - Realm/Headers (2.0.3)
+
+DEPENDENCIES:
+  - AsyncDisplayKit (>= 2.0-beta.1)
+  - BKDeltaCalculator
+  - Masonry
+  - MBProgressHUD
+  - Ono
+  - Realm
+
+SPEC CHECKSUMS:
+  AsyncDisplayKit: 4d4403eb61b2b667866e98ca8b7fab6cec497b68
+  BKDeltaCalculator: 82a683fe822144496e99df1d6f30af9f63f0e356
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  Ono: 80b1c686777d3f6d5d5ce6fcac8a74afef4ca197
+  PINCache: 6d273a6e0754bd26e3f12a38a90dde73cc6a42b2
+  PINRemoteImage: 60156f185c9360ca4e93832cd490d6f6c7afbd9a
+  Realm: 5f008bfe3c8c47142eddfc30b8c1584cde22db24
+
+PODFILE CHECKSUM: 2fa7803195b955930e6188ba2b964ab6749eed2d
+
+COCOAPODS: 1.0.0
