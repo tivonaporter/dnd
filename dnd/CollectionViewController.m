@@ -15,10 +15,12 @@
 #import "SearchViewController.h"
 #import "SpellCellNode.h"
 #import "MonsterCellNode.h"
+#import "CharacterClassCellNode.h"
 #import "ItemCellNode.h"
 #import "Spell.h"
 #import "Monster.h"
 #import "Item.h"
+#import "CharacterClass.h"
 #import "Collection.h"
 #import "CollectionItem.h"
 #import "DetailViewController.h"
@@ -51,12 +53,9 @@
     
     __weak typeof(self) weakSelf = self;
     self.notificationToken = [self.collection.items addNotificationBlock:^(RLMArray<CollectionItem *> *results, RLMCollectionChange *change, NSError *error) {
-        if (error) {
-            NSLog(@"Failed to open Realm on background worker: %@", error);
-            return;
-        }
+        if (error) return;
+        if (!change) [weakSelf.tableNode reloadData];
         
-        if (!change) return;
         [weakSelf.tableNode performBatchUpdates:^{
             [weakSelf.tableNode deleteRowsAtIndexPaths:[change deletionsInSection:0] withRowAnimation:UITableViewRowAnimationFade];
             [weakSelf.tableNode insertRowsAtIndexPaths:[change insertionsInSection:0] withRowAnimation:UITableViewRowAnimationFade];
@@ -77,7 +76,7 @@
 
 - (void)addButtonTapped:(UIBarButtonItem *)sender
 {
-    SearchViewController *searchViewController = [[SearchViewController alloc] init];
+    SearchViewController *searchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeAdd];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:searchViewController];
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     
@@ -115,6 +114,19 @@
             RLMRealm *realm = [RLMRealm defaultRealm];
             [realm beginWriteTransaction];
             CollectionItem *collectionItem = [CollectionItem createInRealm:realm withValue:@{ @"monster" : monster }];
+            [self.collection.items addObject:collectionItem];
+            [realm commitWriteTransaction];
+        };
+        [self presentViewController:navigationController animated:YES completion:nil];
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"Class" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        searchViewController.type = SearchViewControllerTypeCharacterClass;
+        searchViewController.selectionAction = ^(id selectedItem) {
+            CharacterClass *characterClass = (CharacterClass *)selectedItem;
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            [realm beginWriteTransaction];
+            CollectionItem *collectionItem = [CollectionItem createInRealm:realm withValue:@{ @"characterClass" : characterClass }];
             [self.collection.items addObject:collectionItem];
             [realm commitWriteTransaction];
         };
@@ -161,13 +173,15 @@
     CollectionItem *collectionItem = [self.collection.items objectAtIndex:indexPath.row];
     DetailViewController *viewController;
     if (collectionItem.spell) {
-        viewController = [[DetailViewController alloc] initWithObject:collectionItem.spell];
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.spell mode:DetailViewControllerModeView];
     } else if (collectionItem.item) {
-        viewController = [[DetailViewController alloc] initWithObject:collectionItem.item];
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.item mode:DetailViewControllerModeView];
     } else if (collectionItem.monster) {
-        viewController = [[DetailViewController alloc] initWithObject:collectionItem.monster];
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.monster mode:DetailViewControllerModeView];
+    } else if (collectionItem.characterClass) {
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.characterClass mode:DetailViewControllerModeView];
     }
-    
+
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -189,6 +203,10 @@
             return cell;
         } else if (threadCollectionItem.monster) {
             MonsterCellNode *cell = [[MonsterCellNode alloc] initWithMonster:threadCollectionItem.monster detailed:NO];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+        } else if (threadCollectionItem.characterClass) {
+            CharacterClassCellNode *cell = [[CharacterClassCellNode alloc] initWithCharacterClass:threadCollectionItem.characterClass detailed:NO];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }

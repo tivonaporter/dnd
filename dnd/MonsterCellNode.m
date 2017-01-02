@@ -19,6 +19,7 @@
 @interface MonsterCellNode ()
 
 @property (nonatomic, strong) ASTextNode *nameLabel;
+@property (nonatomic, strong) ASTextNode *detailLabel;
 @property (nonatomic, strong) DetailLabelNode *strengthLabel;
 @property (nonatomic, strong) DetailLabelNode *dexterityLabel;
 @property (nonatomic, strong) DetailLabelNode *constitutionLabel;
@@ -62,6 +63,12 @@
     
     self.imageNode = [[ASImageNode alloc] init];
     self.imageNode.image = [UIImage imageNamed:@"monster-icon"];
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    formatter.maximumFractionDigits = 1;
+    formatter.minimumFractionDigits = 0;
+    formatter.minimumIntegerDigits = 1;
+    NSString *challengeRatingString = [formatter stringFromNumber:monster.challengeRating];
     
     if (self.detailed) {
         
@@ -112,8 +119,7 @@
         
         self.challengeRatingLabel = [[DetailLabelNode alloc] init];
         self.challengeRatingLabel.title = @"CR";
-        self.challengeRatingLabel.value = [NSString stringWithFormat:@"%.1f",
-                                           [monster.challengeRating floatValue]];
+        self.challengeRatingLabel.value = challengeRatingString;
         
         self.typeLabel = [[DetailLabelNode alloc] init];
         self.typeLabel.title = @"Type";
@@ -158,6 +164,9 @@
             [actionNodes addObject:[[ActionNode alloc] initWithAction:action]];
         }
         self.actionNodes = actionNodes;
+    } else {
+        self.detailLabel = [[ASTextNode alloc] init];
+        self.detailLabel.attributedText = [[NSString stringWithFormat:@"CR %@", challengeRatingString] stringWithTextStyle:UIFontTextStyleCaption1];
     }
     
     return self;
@@ -171,14 +180,14 @@
     
     id<ASLayoutElement> child;
     
-    ASStackLayoutSpec *nameSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                                                          spacing:10.0f
-                                                                   justifyContent:ASStackLayoutJustifyContentSpaceBetween
-                                                                       alignItems:ASStackLayoutAlignItemsStretch
-                                                                         children:@[
-                                                                                    self.nameLabel,
-                                                                                    self.imageNode]];
     if (self.detailed) {
+        ASStackLayoutSpec *nameSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
+                                                                              spacing:10.0f
+                                                                       justifyContent:ASStackLayoutJustifyContentSpaceBetween
+                                                                           alignItems:ASStackLayoutAlignItemsStretch
+                                                                             children:@[
+                                                                                        self.nameLabel,
+                                                                                        self.imageNode]];
     
         ASInsetLayoutSpec *nameInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(0.0f, 0.0f, 10.0f, 0.0f) child:nameSpec];
         
@@ -222,10 +231,25 @@
                                                      alignItems:ASStackLayoutAlignItemsStretch
                                                        children:verticalChildren];
     } else {
-        child = nameSpec;
+        ASStackLayoutSpec *nameSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                                                                              spacing:0.0f
+                                                                       justifyContent:ASStackLayoutJustifyContentStart
+                                                                           alignItems:ASStackLayoutAlignItemsStart
+                                                                             children:@[self.detailLabel,
+                                                                                        self.nameLabel]];
+        nameSpec.style.flexShrink = 1.0f;
+        
+        ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
+                                                                               spacing:10.0f
+                                                                        justifyContent:ASStackLayoutJustifyContentSpaceBetween
+                                                                            alignItems:ASStackLayoutAlignItemsCenter
+                                                                              children:@[nameSpec,
+                                                                                         self.imageNode]];
+        
+        child = stackSpec;
     }
     
-    ASInsetLayoutSpec *insetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(20.0f, 20.0f, 20.0f, 20.0f)
+    ASInsetLayoutSpec *insetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f)
                                                                           child:child];
     
     return insetSpec;

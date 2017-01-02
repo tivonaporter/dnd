@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6EC0C1A1810463A1D5160A4A /* Pods_dnd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF3AB9A6011DC1D9884E015 /* Pods_dnd.framework */; };
-		911D767B1DE0D42700E5167D /* DetailLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 911D767A1DE0D42700E5167D /* DetailLabelView.m */; };
 		911D76831DE0DEC500E5167D /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 911D76821DE0DEC500E5167D /* SearchViewController.m */; };
 		911D76861DE0EBB400E5167D /* Collection.m in Sources */ = {isa = PBXBuildFile; fileRef = 911D76851DE0EBB400E5167D /* Collection.m */; };
 		911D76891DE0EBBF00E5167D /* CollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 911D76881DE0EBBF00E5167D /* CollectionItem.m */; };
@@ -40,14 +39,12 @@
 		915430F71DE0072900832AE5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 915430F61DE0072900832AE5 /* main.m */; };
 		915430FA1DE0072900832AE5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 915430F91DE0072900832AE5 /* AppDelegate.m */; };
 		915430FD1DE0072900832AE5 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 915430FC1DE0072900832AE5 /* MasterViewController.m */; };
-		915431031DE0072900832AE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 915431011DE0072900832AE5 /* Main.storyboard */; };
 		915431051DE0072900832AE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 915431041DE0072900832AE5 /* Assets.xcassets */; };
 		915431081DE0072900832AE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 915431061DE0072900832AE5 /* LaunchScreen.storyboard */; };
 		915431101DE0090600832AE5 /* PHB Spells 3.8.1.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9154310F1DE0090600832AE5 /* PHB Spells 3.8.1.xml */; };
 		9160B7231DE281EF0043795B /* Monster.m in Sources */ = {isa = PBXBuildFile; fileRef = 9160B7221DE281EF0043795B /* Monster.m */; };
 		9160B7261DE287130043795B /* Trait.m in Sources */ = {isa = PBXBuildFile; fileRef = 9160B7251DE287130043795B /* Trait.m */; };
 		9160B7291DE288060043795B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 9160B7281DE288060043795B /* Action.m */; };
-		917130601DE0BB3E00D7837B /* ItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9171305E1DE0BB3E00D7837B /* ItemTableViewCell.m */; };
 		917A0FF01E123C260045D97A /* ActionNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 917A0FEF1E123C260045D97A /* ActionNode.m */; };
 		917A0FF31E1243630045D97A /* TraitNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 917A0FF21E1243630045D97A /* TraitNode.m */; };
 		917A0FF71E13678E0045D97A /* ASStackLayoutSpec+Tokyo.m in Sources */ = {isa = PBXBuildFile; fileRef = 917A0FF61E13678E0045D97A /* ASStackLayoutSpec+Tokyo.m */; };
@@ -56,15 +53,18 @@
 		917A10001E14BCE70045D97A /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 917A0FFF1E14BCE70045D97A /* CollectionViewController.m */; };
 		917A10031E14BDBB0045D97A /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 917A10021E14BDBB0045D97A /* DetailViewController.m */; };
 		91844EA51DE0AC3D002B0057 /* Spell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91844EA41DE0AC3D002B0057 /* Spell.m */; };
-		918DB7931DE7AAE200FC1292 /* MonsterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 918DB7921DE7AAE200FC1292 /* MonsterTableViewCell.m */; };
-		91CF0B501DE01E0200F5FE06 /* SpellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91CF0B4F1DE01E0200F5FE06 /* SpellTableViewCell.m */; };
+		C0161BEC1E19D39B004A203F /* Character Compendium.xml in Resources */ = {isa = PBXBuildFile; fileRef = C0161BEB1E19D39B004A203F /* Character Compendium.xml */; };
+		C0161BEF1E19D818004A203F /* CharacterClass.m in Sources */ = {isa = PBXBuildFile; fileRef = C0161BEE1E19D818004A203F /* CharacterClass.m */; };
+		C0CA6A2D1E17390D00F9C556 /* CollectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CA6A2C1E17390D00F9C556 /* CollectionCellNode.m */; };
+		C0E6CB331E19D9BE00561234 /* Classes.xml in Resources */ = {isa = PBXBuildFile; fileRef = C0E6CB321E19D9BE00561234 /* Classes.xml */; };
+		C0E6CB361E19E30600561234 /* CharacterClassCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E6CB351E19E30600561234 /* CharacterClassCellNode.m */; };
+		C0E6CB391E19FF1400561234 /* Feature.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E6CB381E19FF1400561234 /* Feature.m */; };
+		C0E6CB3C1E1A03D100561234 /* FeatureNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E6CB3B1E1A03D100561234 /* FeatureNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6FB310F86C010E4D49B0923E /* Pods-dnd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dnd.debug.xcconfig"; path = "Pods/Target Support Files/Pods-dnd/Pods-dnd.debug.xcconfig"; sourceTree = "<group>"; };
 		8EF3AB9A6011DC1D9884E015 /* Pods_dnd.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dnd.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		911D76791DE0D42700E5167D /* DetailLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailLabelView.h; sourceTree = "<group>"; };
-		911D767A1DE0D42700E5167D /* DetailLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailLabelView.m; sourceTree = "<group>"; };
 		911D76811DE0DEC500E5167D /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		911D76821DE0DEC500E5167D /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		911D76841DE0EBB400E5167D /* Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collection.h; sourceTree = "<group>"; };
@@ -109,7 +109,6 @@
 		915430F91DE0072900832AE5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		915430FB1DE0072900832AE5 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		915430FC1DE0072900832AE5 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		915431021DE0072900832AE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		915431041DE0072900832AE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		915431071DE0072900832AE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		915431091DE0072900832AE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,8 +119,6 @@
 		9160B7251DE287130043795B /* Trait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trait.m; sourceTree = "<group>"; };
 		9160B7271DE288060043795B /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
 		9160B7281DE288060043795B /* Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Action.m; sourceTree = "<group>"; };
-		9171305D1DE0BB3E00D7837B /* ItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemTableViewCell.h; sourceTree = "<group>"; };
-		9171305E1DE0BB3E00D7837B /* ItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemTableViewCell.m; sourceTree = "<group>"; };
 		917A0FEE1E123C260045D97A /* ActionNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionNode.h; sourceTree = "<group>"; };
 		917A0FEF1E123C260045D97A /* ActionNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionNode.m; sourceTree = "<group>"; };
 		917A0FF11E1243630045D97A /* TraitNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TraitNode.h; sourceTree = "<group>"; };
@@ -138,11 +135,19 @@
 		917A10021E14BDBB0045D97A /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		91844EA31DE0AC3D002B0057 /* Spell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spell.h; sourceTree = "<group>"; };
 		91844EA41DE0AC3D002B0057 /* Spell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spell.m; sourceTree = "<group>"; };
-		918DB7911DE7AAE200FC1292 /* MonsterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterTableViewCell.h; sourceTree = "<group>"; };
-		918DB7921DE7AAE200FC1292 /* MonsterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonsterTableViewCell.m; sourceTree = "<group>"; };
-		91CF0B4E1DE01E0200F5FE06 /* SpellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpellTableViewCell.h; sourceTree = "<group>"; };
-		91CF0B4F1DE01E0200F5FE06 /* SpellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpellTableViewCell.m; sourceTree = "<group>"; };
 		B6040763D338DF53AE88B540 /* Pods-dnd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dnd.release.xcconfig"; path = "Pods/Target Support Files/Pods-dnd/Pods-dnd.release.xcconfig"; sourceTree = "<group>"; };
+		C0161BEB1E19D39B004A203F /* Character Compendium.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Character Compendium.xml"; sourceTree = "<group>"; };
+		C0161BED1E19D818004A203F /* CharacterClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterClass.h; sourceTree = "<group>"; };
+		C0161BEE1E19D818004A203F /* CharacterClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterClass.m; sourceTree = "<group>"; };
+		C0CA6A2B1E17390D00F9C556 /* CollectionCellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionCellNode.h; sourceTree = "<group>"; };
+		C0CA6A2C1E17390D00F9C556 /* CollectionCellNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionCellNode.m; sourceTree = "<group>"; };
+		C0E6CB321E19D9BE00561234 /* Classes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Classes.xml; sourceTree = "<group>"; };
+		C0E6CB341E19E30600561234 /* CharacterClassCellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterClassCellNode.h; sourceTree = "<group>"; };
+		C0E6CB351E19E30600561234 /* CharacterClassCellNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterClassCellNode.m; sourceTree = "<group>"; };
+		C0E6CB371E19FF1400561234 /* Feature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feature.h; sourceTree = "<group>"; };
+		C0E6CB381E19FF1400561234 /* Feature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feature.m; sourceTree = "<group>"; };
+		C0E6CB3A1E1A03D100561234 /* FeatureNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureNode.h; sourceTree = "<group>"; };
+		C0E6CB3B1E1A03D100561234 /* FeatureNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,14 +174,14 @@
 		911D767C1DE0D8DC00E5167D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				911D76791DE0D42700E5167D /* DetailLabelView.h */,
-				911D767A1DE0D42700E5167D /* DetailLabelView.m */,
 				911D9D431DEB8FFD0079A0BA /* DetailLabelNode.h */,
 				911D9D441DEB8FFD0079A0BA /* DetailLabelNode.m */,
 				917A0FEE1E123C260045D97A /* ActionNode.h */,
 				917A0FEF1E123C260045D97A /* ActionNode.m */,
 				917A0FF11E1243630045D97A /* TraitNode.h */,
 				917A0FF21E1243630045D97A /* TraitNode.m */,
+				C0E6CB3A1E1A03D100561234 /* FeatureNode.h */,
+				C0E6CB3B1E1A03D100561234 /* FeatureNode.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -198,6 +203,10 @@
 				911D76881DE0EBBF00E5167D /* CollectionItem.m */,
 				911D76D71DE1320300E5167D /* Item.h */,
 				911D76D81DE1320300E5167D /* Item.m */,
+				C0161BED1E19D818004A203F /* CharacterClass.h */,
+				C0161BEE1E19D818004A203F /* CharacterClass.m */,
+				C0E6CB371E19FF1400561234 /* Feature.h */,
+				C0E6CB381E19FF1400561234 /* Feature.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -205,18 +214,16 @@
 		911D767E1DE0D8E600E5167D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				91CF0B4E1DE01E0200F5FE06 /* SpellTableViewCell.h */,
-				91CF0B4F1DE01E0200F5FE06 /* SpellTableViewCell.m */,
-				9171305D1DE0BB3E00D7837B /* ItemTableViewCell.h */,
-				9171305E1DE0BB3E00D7837B /* ItemTableViewCell.m */,
-				918DB7911DE7AAE200FC1292 /* MonsterTableViewCell.h */,
-				918DB7921DE7AAE200FC1292 /* MonsterTableViewCell.m */,
+				C0CA6A2B1E17390D00F9C556 /* CollectionCellNode.h */,
+				C0CA6A2C1E17390D00F9C556 /* CollectionCellNode.m */,
 				911D9D491DEB920F0079A0BA /* MonsterCellNode.h */,
 				911D9D4A1DEB920F0079A0BA /* MonsterCellNode.m */,
 				911D9D4C1DEB93A50079A0BA /* SpellCellNode.h */,
 				911D9D4D1DEB93A50079A0BA /* SpellCellNode.m */,
 				911D9D4F1DEB94100079A0BA /* ItemCellNode.h */,
 				911D9D501DEB94100079A0BA /* ItemCellNode.m */,
+				C0E6CB341E19E30600561234 /* CharacterClassCellNode.h */,
+				C0E6CB351E19E30600561234 /* CharacterClassCellNode.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -239,6 +246,8 @@
 		911D76801DE0D8F300E5167D /* Documents */ = {
 			isa = PBXGroup;
 			children = (
+				C0E6CB321E19D9BE00561234 /* Classes.xml */,
+				C0161BEB1E19D39B004A203F /* Character Compendium.xml */,
 				911D76C51DE1310A00E5167D /* Curse of Strahd Bestiary 1.1.0.xml */,
 				911D76C61DE1310A00E5167D /* Hoard of the Dragon Queen Bestiary 1.2.2.xml */,
 				911D76C71DE1310A00E5167D /* Monster Manual Bestiary 2.5.0.xml */,
@@ -294,7 +303,6 @@
 				911D767E1DE0D8E600E5167D /* Cells */,
 				911D767C1DE0D8DC00E5167D /* Views */,
 				911D767D1DE0D8E000E5167D /* Models */,
-				915431011DE0072900832AE5 /* Main.storyboard */,
 				915431041DE0072900832AE5 /* Assets.xcassets */,
 				915431061DE0072900832AE5 /* LaunchScreen.storyboard */,
 				915431091DE0072900832AE5 /* Info.plist */,
@@ -340,12 +348,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9154310C1DE0072900832AE5 /* Build configuration list for PBXNativeTarget "dnd" */;
 			buildPhases = (
-				ABF130A5B46DBCB3B16DF923 /* 📦 Check Pods Manifest.lock */,
+				ABF130A5B46DBCB3B16DF923 /* [CP] Check Pods Manifest.lock */,
 				915430EE1DE0072900832AE5 /* Sources */,
 				915430EF1DE0072900832AE5 /* Frameworks */,
 				915430F01DE0072900832AE5 /* Resources */,
-				D1ACB5D5ECC76410674A7DB3 /* 📦 Embed Pods Frameworks */,
-				6FF4A0061340CC8563B0805B /* 📦 Copy Pods Resources */,
+				D1ACB5D5ECC76410674A7DB3 /* [CP] Embed Pods Frameworks */,
+				6FF4A0061340CC8563B0805B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -367,7 +375,7 @@
 				TargetAttributes = {
 					915430F11DE0072900832AE5 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = TEA775JY5T;
+						DevelopmentTeam = 65AZ9F33C7;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -395,6 +403,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0E6CB331E19D9BE00561234 /* Classes.xml in Resources */,
 				915431101DE0090600832AE5 /* PHB Spells 3.8.1.xml in Resources */,
 				911D76C01DE130CB00E5167D /* Magic Items 5.1.xml in Resources */,
 				911D76D31DE1310A00E5167D /* Player Bestiary 2.4.0.xml in Resources */,
@@ -407,6 +416,7 @@
 				911D76CF1DE1310A00E5167D /* Hoard of the Dragon Queen Bestiary 1.2.2.xml in Resources */,
 				911D76D41DE1310A00E5167D /* Princes of the Apocalypse Bestiary 1.2.1.xml in Resources */,
 				911D76C21DE130CB00E5167D /* Mundane Items 2.7.0.xml in Resources */,
+				C0161BEC1E19D39B004A203F /* Character Compendium.xml in Resources */,
 				911D76D61DE1310A00E5167D /* The Rise of Tiamat Bestiary 1.2.1.xml in Resources */,
 				911D76B81DE130BF00E5167D /* SCAG Spells 1.2.xml in Resources */,
 				911D76CE1DE1310A00E5167D /* Curse of Strahd Bestiary 1.1.0.xml in Resources */,
@@ -416,21 +426,20 @@
 				911D76C11DE130CB00E5167D /* Modern Items 1.2.xml in Resources */,
 				915431051DE0072900832AE5 /* Assets.xcassets in Resources */,
 				911D76D21DE1310A00E5167D /* Phandelver Bestiary 1.2.1.xml in Resources */,
-				915431031DE0072900832AE5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6FF4A0061340CC8563B0805B /* 📦 Copy Pods Resources */ = {
+		6FF4A0061340CC8563B0805B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,29 +447,29 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-dnd/Pods-dnd-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ABF130A5B46DBCB3B16DF923 /* 📦 Check Pods Manifest.lock */ = {
+		ABF130A5B46DBCB3B16DF923 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		D1ACB5D5ECC76410674A7DB3 /* 📦 Embed Pods Frameworks */ = {
+		D1ACB5D5ECC76410674A7DB3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,13 +492,14 @@
 				911D76861DE0EBB400E5167D /* Collection.m in Sources */,
 				917A0FFA1E137B380045D97A /* ASTextNode+Extra.m in Sources */,
 				915430FA1DE0072900832AE5 /* AppDelegate.m in Sources */,
-				918DB7931DE7AAE200FC1292 /* MonsterTableViewCell.m in Sources */,
+				C0161BEF1E19D818004A203F /* CharacterClass.m in Sources */,
+				C0E6CB3C1E1A03D100561234 /* FeatureNode.m in Sources */,
 				9160B7231DE281EF0043795B /* Monster.m in Sources */,
 				917A0FF71E13678E0045D97A /* ASStackLayoutSpec+Tokyo.m in Sources */,
+				C0CA6A2D1E17390D00F9C556 /* CollectionCellNode.m in Sources */,
 				911D9D451DEB8FFD0079A0BA /* DetailLabelNode.m in Sources */,
 				911D9D4E1DEB93A50079A0BA /* SpellCellNode.m in Sources */,
-				911D767B1DE0D42700E5167D /* DetailLabelView.m in Sources */,
-				91CF0B501DE01E0200F5FE06 /* SpellTableViewCell.m in Sources */,
+				C0E6CB391E19FF1400561234 /* Feature.m in Sources */,
 				911D9D4B1DEB920F0079A0BA /* MonsterCellNode.m in Sources */,
 				911D76891DE0EBBF00E5167D /* CollectionItem.m in Sources */,
 				917A10001E14BCE70045D97A /* CollectionViewController.m in Sources */,
@@ -499,9 +509,9 @@
 				911D76831DE0DEC500E5167D /* SearchViewController.m in Sources */,
 				9160B7261DE287130043795B /* Trait.m in Sources */,
 				915430FD1DE0072900832AE5 /* MasterViewController.m in Sources */,
+				C0E6CB361E19E30600561234 /* CharacterClassCellNode.m in Sources */,
 				911D768C1DE1036200E5167D /* ImportManager.m in Sources */,
 				915430F71DE0072900832AE5 /* main.m in Sources */,
-				917130601DE0BB3E00D7837B /* ItemTableViewCell.m in Sources */,
 				917A10031E14BDBB0045D97A /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,14 +519,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		915431011DE0072900832AE5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				915431021DE0072900832AE5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		915431061DE0072900832AE5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -625,7 +627,7 @@
 			baseConfigurationReference = 6FB310F86C010E4D49B0923E /* Pods-dnd.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = TEA775JY5T;
+				DEVELOPMENT_TEAM = 65AZ9F33C7;
 				INFOPLIST_FILE = dnd/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tivonaporter.dnd;
@@ -638,7 +640,7 @@
 			baseConfigurationReference = B6040763D338DF53AE88B540 /* Pods-dnd.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = TEA775JY5T;
+				DEVELOPMENT_TEAM = 65AZ9F33C7;
 				INFOPLIST_FILE = dnd/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tivonaporter.dnd;

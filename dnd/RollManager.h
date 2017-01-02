@@ -8,8 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum : NSUInteger {
+    RollQualityTerrible,
+    RollQualityBad,
+    RollQualityAverage,
+    RollQualityGood,
+    RollQualityGreat
+} RollQuality;
+
+struct RollResult {
+    NSUInteger result;
+    NSUInteger bestResult;
+    NSUInteger worstResult;
+    NSUInteger averageResult;
+    RollQuality quality;
+};
+typedef struct RollResult RollResult;
+
 @interface RollManager : NSObject
 
-+ (NSUInteger)resultOfRollString:(NSString *)string;
++ (RollResult)resultOfRollString:(NSString *)string;
 
 @end

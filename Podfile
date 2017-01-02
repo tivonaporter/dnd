@@ -8,4 +8,5 @@ target 'dnd' do
   pod 'AsyncDisplayKit', '>= 2.0-beta.1'
   pod 'Masonry'
   pod 'BKDeltaCalculator'
+  pod 'MMPopupView'
 end

@@ -11,6 +11,8 @@ PODS:
   - BKDeltaCalculator (1.1.2)
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
+  - MMPopupView (1.7.2):
+    - Masonry
   - Ono (1.2.2)
   - PINCache (3.0.1-beta.2):
     - PINCache/Arc-exception-safe (= 3.0.1-beta.2)
@@ -33,6 +35,7 @@ DEPENDENCIES:
   - BKDeltaCalculator
   - Masonry
   - MBProgressHUD
+  - MMPopupView
   - Ono
   - Realm
 
@@ -41,11 +44,12 @@ SPEC CHECKSUMS:
   BKDeltaCalculator: 82a683fe822144496e99df1d6f30af9f63f0e356
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MMPopupView: fe1dd010824029dfb632fdf1a531db5dd5386020
   Ono: 80b1c686777d3f6d5d5ce6fcac8a74afef4ca197
   PINCache: 6d273a6e0754bd26e3f12a38a90dde73cc6a42b2
   PINRemoteImage: 60156f185c9360ca4e93832cd490d6f6c7afbd9a
   Realm: 5f008bfe3c8c47142eddfc30b8c1584cde22db24
 
-PODFILE CHECKSUM: 2fa7803195b955930e6188ba2b964ab6749eed2d
+PODFILE CHECKSUM: 704523a96dba1c81560be7bde0c747be453654e1
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.1.1

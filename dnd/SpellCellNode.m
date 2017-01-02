@@ -16,6 +16,7 @@
 @interface SpellCellNode ()
 
 @property (nonatomic, strong) ASTextNode *nameLabel;
+@property (nonatomic, strong) ASTextNode *detailLabel;
 @property (nonatomic, strong) DetailLabelNode *levelLabel;
 @property (nonatomic, strong) DetailLabelNode *schoolLabel;
 @property (nonatomic, strong) DetailLabelNode *timeLabel;
@@ -46,7 +47,6 @@
     self.imageNode.image = [UIImage imageNamed:@"spell-icon"];
     
     if (self.detailed) {
-    
         self.levelLabel = [[DetailLabelNode alloc] init];
         self.levelLabel.title = @"Level";
         self.levelLabel.value = spell.level;
@@ -76,7 +76,10 @@
         self.classesLabel.value = spell.classes;
         
         self.textLabel = [ASTextNode linkedTextNodeWithAttributedString:[spell.text stringWithBodyTextStyle]];
-        
+    } else {
+        NSString *levelString = [NSString stringWithFormat:@"Level %@", spell.level];
+        self.detailLabel = [[ASTextNode alloc] init];
+        self.detailLabel.attributedText = [levelString stringWithTextStyle:UIFontTextStyleCaption1];
     }
     
     return self;
@@ -90,28 +93,30 @@
     
     id<ASLayoutElement> child;
     
-    ASStackLayoutSpec *nameSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                                                          spacing:10.0f
-                                                                   justifyContent:ASStackLayoutJustifyContentSpaceBetween
-                                                                       alignItems:ASStackLayoutAlignItemsStretch
-                                                                         children:@[
-                                                                                    self.nameLabel,
-                                                                                    self.imageNode]];
-    
     if (self.detailed) {
+        
+        ASStackLayoutSpec *nameSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
+                                                                              spacing:10.0f
+                                                                       justifyContent:ASStackLayoutJustifyContentSpaceBetween
+                                                                           alignItems:ASStackLayoutAlignItemsStretch
+                                                                             children:@[
+                                                                                        self.nameLabel,
+                                                                                        self.imageNode]];
     
         ASInsetLayoutSpec *nameInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(0.0f, 0.0f, 10.0f, 0.0f) child:nameSpec];
         
-        ASStackLayoutSpec *secondRow = [ASStackLayoutSpec gridSpecWithChildren:@[
-                                                                                 self.levelLabel,
-                                                                                 self.schoolLabel,
-                                                                                 self.timeLabel,
-                                                                                 self.rangeLabel,
-                                                                                 self.durationLabel,
-                                                                                 self.componentsLabel,
-                                                                                 self.classesLabel,
-                                                                                 self.textLabel
-                                                                                 ]
+        NSMutableArray *secondRowChildren = [[[NSMutableArray alloc] init] mutableCopy];
+        
+        if (self.levelLabel.value) [secondRowChildren addObject:self.levelLabel];
+        if (self.schoolLabel.value) [secondRowChildren addObject:self.schoolLabel];
+        if (self.timeLabel.value) [secondRowChildren addObject:self.timeLabel];
+        if (self.rangeLabel.value) [secondRowChildren addObject:self.rangeLabel];
+        if (self.durationLabel.value) [secondRowChildren addObject:self.durationLabel];
+        if (self.componentsLabel.value) [secondRowChildren addObject:self.componentsLabel];
+        if (self.classesLabel.value) [secondRowChildren addObject:self.classesLabel];
+        if (self.textLabel.attributedText) [secondRowChildren addObject:self.textLabel];
+        
+        ASStackLayoutSpec *secondRow = [ASStackLayoutSpec gridSpecWithChildren:secondRowChildren
                                                                          width:constrainedSize.min.width - 40.0f];
         
         child = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
@@ -123,10 +128,25 @@
                                                                   secondRow
                                                                   ]];
     } else {
-        child = nameSpec;
+        ASStackLayoutSpec *nameSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                                                                               spacing:0.0f
+                                                                        justifyContent:ASStackLayoutJustifyContentStart
+                                                                            alignItems:ASStackLayoutAlignItemsStart
+                                                                              children:@[self.detailLabel,
+                                                                                         self.nameLabel]];
+        nameSpec.style.flexShrink = 1.0f;
+        
+        ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
+                                                                               spacing:10.0f
+                                                                        justifyContent:ASStackLayoutJustifyContentSpaceBetween
+                                                                            alignItems:ASStackLayoutAlignItemsCenter
+                                                                              children:@[nameSpec,
+                                                                                         self.imageNode]];
+        
+        child = stackSpec;
     }
     
-    ASInsetLayoutSpec *insetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(20.0f, 20.0f, 20.0f, 20.0f)
+    ASInsetLayoutSpec *insetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f)
                                                                           child:child];
     
     return insetSpec;

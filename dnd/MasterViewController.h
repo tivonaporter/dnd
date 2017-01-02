@@ -10,9 +10,7 @@
 
 @class CollectionViewController;
 
-@interface MasterViewController : UITableViewController
-
-@property (strong, nonatomic) CollectionViewController *collectionViewController;
+@interface MasterViewController : UIViewController
 
 @end
 

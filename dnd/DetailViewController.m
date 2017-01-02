@@ -13,15 +13,18 @@
 #import "DetailViewController.h"
 #import "SpellCellNode.h"
 #import "MonsterCellNode.h"
+#import "CharacterClassCellNode.h"
 #import "ItemCellNode.h"
 #import "Spell.h"
 #import "Monster.h"
 #import "Item.h"
+#import "CharacterClass.h"
 
 typedef enum : NSUInteger {
     DetailViewControllerTypeSpell,
     DetailViewControllerTypeItem,
-    DetailViewControllerTypeMonster
+    DetailViewControllerTypeMonster,
+    DetailViewControllerTypeCharacterClass
 } DetailViewControllerType;
 
 @interface DetailViewController () <ASTableDelegate, ASTableDataSource>
@@ -29,15 +32,17 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) ASTableNode *tableNode;
 @property (nonatomic, strong) RLMObject *object;
 @property (nonatomic, assign) DetailViewControllerType type;
+@property (nonatomic, assign) DetailViewControllerMode mode;
 
 @end
 
 @implementation DetailViewController
 
-- (instancetype)initWithObject:(RLMObject *)object
+- (instancetype)initWithObject:(RLMObject *)object mode:(DetailViewControllerMode)mode
 {
     if (!(self = [super init])) return nil;
     self.object = object;
+    self.mode = mode;
     
     if ([self.object isKindOfClass:[Spell class]]) {
         self.type = DetailViewControllerTypeSpell;
@@ -45,6 +50,13 @@ typedef enum : NSUInteger {
         self.type = DetailViewControllerTypeItem;
     } else if ([self.object isKindOfClass:[Monster class]]) {
         self.type = DetailViewControllerTypeMonster;
+    } else if ([self.object isKindOfClass:[CharacterClass class]]) {
+        self.type = DetailViewControllerTypeCharacterClass;
+    }
+    
+    if (self.mode == DetailViewControllerModeAdd) {
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Confirm" style:UIBarButtonItemStyleDone target:self action:@selector(addButtonTapped)];
+        self.navigationItem.rightBarButtonItem = addButton;
     }
     
     return self;
@@ -53,13 +65,12 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.tableNode = [[ASTableNode alloc] initWithStyle:UITableViewStylePlain];
     self.tableNode.dataSource = self;
     self.tableNode.delegate = self;
+    self.tableNode.view.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableNode.view];
-    
-    [self updateViewConstraints];
+    [self.view setNeedsUpdateConstraints];
 }
 
 - (void)updateViewConstraints
@@ -89,6 +100,7 @@ typedef enum : NSUInteger {
         case DetailViewControllerTypeSpell: identifier = ((Spell *)self.object).name; break;
         case DetailViewControllerTypeItem: identifier = ((Item *)self.object).name; break;
         case DetailViewControllerTypeMonster: identifier = ((Monster *)self.object).name; break;
+        case DetailViewControllerTypeCharacterClass: identifier = ((CharacterClass *)self.object).name; break;
     };
     
     __weak typeof(self) weakSelf = self;
@@ -112,9 +124,21 @@ typedef enum : NSUInteger {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }
+            case DetailViewControllerTypeCharacterClass: {
+                CharacterClass *characterClass = [CharacterClass objectForPrimaryKey:identifier];
+                CharacterClassCellNode *cell = [[CharacterClassCellNode alloc] initWithCharacterClass:characterClass detailed:YES];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return cell;
+            }
             default: return nil;
         };
     };
+}
+
+- (void)addButtonTapped
+{
+    if (self.selectionAction) self.selectionAction(self.object);
+    [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

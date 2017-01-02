@@ -10,12 +10,14 @@
 #import "Spell.h"
 #import "Item.h"
 #import "Monster.h"
+#import "CharacterClass.h"
 
 @interface CollectionItem : RLMObject
 
 @property Spell *spell;
 @property Item *item;
 @property Monster *monster;
+@property CharacterClass *characterClass;
 @property NSString *identifier;
 
 @end

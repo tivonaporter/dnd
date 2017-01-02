@@ -23,4 +23,6 @@
 @property NSString *stealth;
 @property NSString *text;
 
+- (NSString *)typeString;
+
 @end

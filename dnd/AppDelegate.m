@@ -6,11 +6,16 @@
 //  Copyright © 2016 Tivona & Porter. All rights reserved.
 //
 
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <MMPopupView/MMAlertView.h>
+
 #import "AppDelegate.h"
 #import "CollectionViewController.h"
 #import "ImportManager.h"
 #import "RollManager.h"
 #import "SearchViewController.h"
+#import "MasterViewController.h"
+#import "NSString+Extra.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -22,36 +27,56 @@
 {
     [ImportManager import];
     
+    UISplitViewController *splitViewController = [[UISplitViewController alloc] init];
+    
+    MasterViewController *masterViewController = [[MasterViewController alloc] init];
+    UINavigationController *masterNavigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+    
+    splitViewController.viewControllers = @[masterNavigationController];
+    splitViewController.tabBarItem.title = @"Collections";
+    splitViewController.tabBarItem.image = [UIImage imageNamed:@"collection-tab-icon"];
+
+    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+    splitViewController.delegate = self;
+    
     SearchViewController *spellSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
     spellSearchViewController.type = SearchViewControllerTypeSpell;
     UINavigationController *spellNavigationController = [[UINavigationController alloc] initWithRootViewController:spellSearchViewController];
     spellNavigationController.tabBarItem.title = @"Spells";
+    spellNavigationController.tabBarItem.image = [UIImage imageNamed:@"spell-tab-icon"];
     
     SearchViewController *itemSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
     itemSearchViewController.type = SearchViewControllerTypeItem;
     UINavigationController *itemNavigationController = [[UINavigationController alloc] initWithRootViewController:itemSearchViewController];
     itemNavigationController.tabBarItem.title = @"Items";
+    itemNavigationController.tabBarItem.image = [UIImage imageNamed:@"item-tab-icon"];
     
     SearchViewController *monsterSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
     monsterSearchViewController.type = SearchViewControllerTypeMonster;
     UINavigationController *monsterNavigationController = [[UINavigationController alloc] initWithRootViewController:monsterSearchViewController];
     monsterNavigationController.tabBarItem.title = @"Monsters";
+    monsterNavigationController.tabBarItem.image = [UIImage imageNamed:@"monster-tab-icon"];
+    
+    SearchViewController *characterClassSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
+    characterClassSearchViewController.type = SearchViewControllerTypeCharacterClass;
+    UINavigationController *characterClassNavigationController = [[UINavigationController alloc] initWithRootViewController:characterClassSearchViewController];
+    characterClassNavigationController.tabBarItem.title = @"Classes";
+    characterClassNavigationController.tabBarItem.image = [UIImage imageNamed:@"class-tab-icon"];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
-    tabBarController.viewControllers = @[spellNavigationController, itemNavigationController, monsterNavigationController];
+    tabBarController.viewControllers = @[spellNavigationController, itemNavigationController, monsterNavigationController, characterClassNavigationController, splitViewController];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor blackColor];
     self.window.rootViewController = tabBarController;
     [self.window makeKeyAndVisible];
     
-    /*
-    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-    splitViewController.delegate = self;
-     */
+    [MMAlertViewConfig globalConfig].defaultTextOK = @"Okay";
+    [MMAlertViewConfig globalConfig].defaultTextCancel = @"Cancel";
+    [MMAlertViewConfig globalConfig].defaultTextConfirm = @"Confirm";
+     
     return YES;
 }
 
@@ -98,11 +123,42 @@
 
 - (void)textNode:(ASTextNode *)textNode tappedLinkAttribute:(NSString *)attribute value:(id)value atPoint:(CGPoint)point textRange:(NSRange)textRange
 {
-    NSNumber *result = @([RollManager resultOfRollString:value]);
-    NSString *title = [NSString stringWithFormat:@"You got a %@", [result stringValue]];
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Woot" style:UIAlertActionStyleDefault handler:nil]];
-    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+    RollResult roll = [RollManager resultOfRollString:value];
+    NSString *reaction = @"";
+    NSString *prefix = @"";
+    
+    switch (roll.quality) {
+        case RollQualityTerrible:
+            reaction = @"🖕";
+            prefix = @"Bugbears!";
+            break;
+        case RollQualityBad:
+            reaction = @"👎";
+            prefix = @"Darn.";
+            break;
+        case RollQualityAverage:
+            reaction = @"👍";
+            break;
+        case RollQualityGood:
+            reaction = @"🙌";
+            prefix = @"Yay!";
+            break;
+        case RollQualityGreat:
+            reaction = @"🎉";
+            prefix = @"Praise Tymora!";
+            break;
+    }
+    
+    NSString *title = [NSString stringWithFormat:@"%@ You got %lu.", prefix, (unsigned long)roll.result];
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [HUD hideAnimated:YES];
+        NSArray *items = @[MMItemMake(reaction, MMItemTypeNormal, nil)];
+        MMAlertView *alert = [[MMAlertView alloc] initWithTitle:title detail:nil items:items];
+        [alert showWithBlock:nil];
+    });
 }
 
 - (BOOL)textNode:(ASTextNode *)textNode shouldHighlightLinkAttribute:(NSString *)attribute value:(id)value atPoint:(CGPoint)point

@@ -17,16 +17,21 @@
 #import "Spell.h"
 #import "Item.h"
 #import "Monster.h"
+#import "CharacterClass.h"
 #import "SpellCellNode.h"
 #import "ItemCellNode.h"
 #import "MonsterCellNode.h"
+#import "CharacterClassCellNode.h"
 
-@interface SearchViewController () <UISearchResultsUpdating, ASTableDelegate, ASTableDataSource>
+@interface SearchViewController () <UISearchResultsUpdating, ASTableDelegate, ASTableDataSource, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UISearchController *searchController;
-@property (nonatomic, strong) NSArray *dataSource;
+
+@property (nonatomic, strong) RLMResults *results;
+@property (nonatomic, strong) RLMResults *filteredResults;
 @property (nonatomic, strong) ASTableNode *tableNode;
-@property (nonatomic, strong) dispatch_queue_t jobQueue;
+@property (nonatomic, strong) UITableView *tableView;
+
 @property (nonatomic, assign) SearchViewControllerMode mode;
 
 @end
@@ -45,17 +50,43 @@
 {
     [super viewDidLoad];
     
-    self.dataSource = [[NSArray alloc] init];
-    self.jobQueue = dispatch_queue_create([[[NSUUID UUID] UUIDString] UTF8String], NULL);
+    Class objectClass = [self classForCurrentType];
+    self.results = [objectClass performSelector:@selector(allObjects)];
+    switch (self.type) {
+        case SearchViewControllerTypeSpell: {
+            RLMSortDescriptor *levelDescriptor = [RLMSortDescriptor sortDescriptorWithProperty:@"level" ascending:YES];
+            RLMSortDescriptor *nameDescriptor = [RLMSortDescriptor sortDescriptorWithProperty:@"name" ascending:YES];
+            self.results = [self.results sortedResultsUsingDescriptors:@[levelDescriptor, nameDescriptor]];
+            break;
+        }
+        case SearchViewControllerTypeItem:
+            self.results = [self.results sortedResultsUsingProperty:@"name" ascending:YES];
+            break;
+        case SearchViewControllerTypeMonster:
+            self.results = [self.results sortedResultsUsingProperty:@"challengeRating" ascending:YES];
+            break;
+        case SearchViewControllerTypeCharacterClass:
+            self.results = [self.results sortedResultsUsingProperty:@"name" ascending:YES];
+            break;
+        default:
+            break;
+    }
     
     if (self.mode == SearchViewControllerModeAdd) {
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped)];
         self.navigationItem.leftBarButtonItem = cancelButton;
     }
 
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    UITableViewController *tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+    [tableViewController.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    
+    tableViewController.tableView.delegate = self;
+    tableViewController.tableView.dataSource = self;
+    
+    self.tableView = tableViewController.tableView;
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:tableViewController];
     self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
     [self.searchController.searchBar sizeToFit];
     self.definesPresentationContext = YES;
     
@@ -77,10 +108,13 @@
                 case SearchViewControllerTypeMonster:
                     self.navigationItem.title = @"Add a Monster";
                     break;
+                case SearchViewControllerTypeCharacterClass:
+                    self.navigationItem.title = @"Add a Class";
+                    break;
                 default:
                     break;
             }
-        break;
+            break;
         case SearchViewControllerModeView:
             switch (self.type) {
                 case SearchViewControllerTypeSpell:
@@ -92,10 +126,13 @@
                 case SearchViewControllerTypeMonster:
                     self.navigationItem.title = @"Monsters";
                     break;
+                case SearchViewControllerTypeCharacterClass:
+                    self.navigationItem.title = @"Classes";
+                    break;
                 default:
                     break;
             }
-        break;
+            break;
     }
     
     [self updateSearchResults];
@@ -117,30 +154,43 @@
 
 - (void)updateSearchResults
 {
+    Class objectClass = [self classForCurrentType];
+    
+    NSPredicate *newPredicate = [NSPredicate predicateWithFormat:@"name CONTAINS[c] %@", self.searchController.searchBar.text];
+    self.filteredResults = [objectClass performSelector:@selector(objectsWithPredicate:) withObject:newPredicate];
+    self.filteredResults = [self.filteredResults sortedResultsUsingProperty:@"name" ascending:YES];
+    [self.tableView reloadData];
+}
+
+- (Class)classForCurrentType
+{
     Class objectClass;
     switch (self.type) {
         case SearchViewControllerTypeSpell: objectClass = [Spell class]; break;
         case SearchViewControllerTypeItem: objectClass = [Item class]; break;
         case SearchViewControllerTypeMonster: objectClass = [Monster class]; break;
+        case SearchViewControllerTypeCharacterClass: objectClass = [CharacterClass class]; break;
         default: break;
     }
+    return objectClass;
+}
+
+- (void)showDetailViewControllerForObject:(id)object
+{
+    DetailViewControllerMode mode;
     
-    NSPredicate *newPredicate = [NSPredicate predicateWithFormat:@"name CONTAINS[c] %@", self.searchController.searchBar.text];
-    RLMResults *newResults = [objectClass performSelector:@selector(objectsWithPredicate:) withObject:newPredicate];
-    NSMutableArray *newDataSource = [[NSMutableArray alloc] init];
-    for (NSInteger index = 0; index < MIN(10, newResults.count); index++) {
-        [newDataSource addObject:newResults[index]];
+    switch (self.mode) {
+        case SearchViewControllerModeAdd:
+            mode = DetailViewControllerModeAdd;
+            break;
+        case SearchViewControllerModeView:
+            mode = DetailViewControllerModeView;
+            break;
     }
     
-    BKDeltaCalculator *calculator = [BKDeltaCalculator deltaCalculatorWithEqualityTest:^BOOL(RLMObject *A, RLMObject *B) {
-        return [A isEqualToObject:B];
-    }];
-    BKDelta *delta = [calculator deltaFromOldArray:self.dataSource toNewArray:newDataSource];
-    
-    [self.tableNode performBatchAnimated:YES updates:^{
-        [delta applyUpdatesToTableView:self.tableNode.view inSection:0 withRowAnimation:UITableViewRowAnimationFade];
-        self.dataSource = newDataSource;
-    } completion:nil];
+    DetailViewController *detailViewController = [[DetailViewController alloc] initWithObject:object mode:mode];
+    detailViewController.selectionAction = self.selectionAction;
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 #pragma mark - UISearchResultsUpdating
@@ -150,7 +200,52 @@
     [self updateSearchResults];
 }
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDelegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.filteredResults.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id object = self.filteredResults[indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    
+    switch (self.type) {
+        case SearchViewControllerTypeSpell: {
+            Spell *spell = (Spell *)object;
+            cell.textLabel.text = spell.name;
+        }
+        case SearchViewControllerTypeItem: {
+            Item *item = (Item *)object;
+            cell.textLabel.text = item.name;
+        }
+        case SearchViewControllerTypeMonster: {
+            Monster *monster = (Monster *)object;
+            cell.textLabel.text = monster.name;
+        }
+        case SearchViewControllerTypeCharacterClass: {
+            CharacterClass *characterClass = (CharacterClass *)object;
+            cell.textLabel.text = characterClass.name;
+        }
+    };
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id object = [self.filteredResults objectAtIndex:indexPath.row];
+    [self showDetailViewControllerForObject:object];
+}
+
+#pragma mark - ASTableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableNode:(ASTableNode *)tableNode
 {
@@ -159,17 +254,18 @@
 
 - (NSInteger)tableNode:(ASTableNode *)tableNode numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataSource.count;
+    return self.results.count;
 }
 
 - (ASCellNodeBlock)tableNode:(ASTableNode *)tableNode nodeBlockForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    id object = self.dataSource[indexPath.row];
+    id object = self.results[indexPath.row];
     NSString *identifier;
     switch (self.type) {
         case SearchViewControllerTypeSpell: identifier = ((Spell *)object).name;
         case SearchViewControllerTypeItem: identifier = ((Item *)object).name;
         case SearchViewControllerTypeMonster: identifier = ((Monster *)object).name;
+        case SearchViewControllerTypeCharacterClass: identifier = ((CharacterClass *)object).name;
     };
     
     __weak typeof(self) weakSelf = self;
@@ -193,16 +289,21 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }
+            case SearchViewControllerTypeCharacterClass: {
+                CharacterClass *characterClass = [CharacterClass objectForPrimaryKey:identifier];
+                CharacterClassCellNode *cell = [[CharacterClassCellNode alloc] initWithCharacterClass:characterClass detailed:NO];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return cell;
+            }
             default: return nil;
         };
     };
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableNode:(ASTableNode *)tableNode didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id result = [self.dataSource objectAtIndex:indexPath.row];
-    if (self.selectionAction) self.selectionAction(result);
-    [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+    id object = [self.results objectAtIndex:indexPath.row];
+    [self showDetailViewControllerForObject:object];
 }
 
 @end

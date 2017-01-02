@@ -10,6 +10,7 @@
 #import "Spell.h"
 #import "Item.h"
 #import "Monster.h"
+#import "CharacterClass.h"
 #import "Trait.h"
 #import "Action.h"
 #import <Realm/Realm.h>
@@ -21,6 +22,7 @@
 + (void)import
 {
     NSArray *files = @[
+                       @"Classes",
                        @"Curse of Strahd Bestiary 1.1.0",
                        @"Hoard of the Dragon Queen Bestiary 1.2.2",
                        @"Monster Manual Bestiary 2.5.0",
@@ -122,17 +124,29 @@
             }
         }];
         
-        NSDictionary *data = @{
+        NSMutableDictionary *data = [@{
                                @"name" : [[element firstChildWithTag:@"name"] stringValue],
                                @"level" : [[element firstChildWithTag:@"level"] stringValue],
-                               @"school" : [[element firstChildWithTag:@"school"] stringValue],
-                               @"time" : [[element firstChildWithTag:@"time"] stringValue],
-                               @"range" : [[element firstChildWithTag:@"range"] stringValue],
-                               @"components" : [[element firstChildWithTag:@"components"] stringValue],
-                               @"duration" : [[element firstChildWithTag:@"duration"] stringValue],
-                               @"classes" : [[element firstChildWithTag:@"classes"] stringValue],
                                @"text" : text
-                               };
+                               } mutableCopy];
+        
+        NSString *school = [[element firstChildWithTag:@"school"] stringValue];
+        if (school) [data setObject:school forKey:@"school"];
+        
+        NSString *time = [[element firstChildWithTag:@"time"] stringValue];
+        if (time) [data setObject:time forKey:@"time"];
+        
+        NSString *range = [[element firstChildWithTag:@"range"] stringValue];
+        if (range) [data setObject:range forKey:@"range"];
+        
+        NSString *components = [[element firstChildWithTag:@"components"] stringValue];
+        if (components) [data setObject:components forKey:@"compenents"];
+        
+        NSString *duration = [[element firstChildWithTag:@"duration"] stringValue];
+        if (duration) [data setObject:duration forKey:@"duration"];
+        
+        NSString *classes = [[element firstChildWithTag:@"classes"] stringValue];
+        if (classes) [data setObject:classes forKey:@"classes"];
         
         [Spell createOrUpdateInRealm:realm withValue:data];
     }];
@@ -232,6 +246,43 @@
                                          };
             Trait *trait = [Trait createOrUpdateInRealm:realm withValue:actionData];
             [monster.traits addObject:trait];
+        }];
+    }];
+
+    // Classes
+    [document enumerateElementsWithCSS:@"class" usingBlock:^(ONOXMLElement *element, NSUInteger idx, BOOL *stop) {
+        NSMutableDictionary *data = [@{
+                               @"name" : [[element firstChildWithTag:@"name"] stringValue],
+                               @"hitDie" : [[element firstChildWithTag:@"hd"] numberValue],
+                               @"proficiency" : [[element firstChildWithTag:@"proficiency"] stringValue]
+                               } mutableCopy];
+        
+        NSString *spellAbility = [[element firstChildWithTag:@"spellAbility"] stringValue];
+        if (spellAbility) [data setObject:spellAbility forKey:@"spellAbility"];
+        
+        CharacterClass *characterClass = [CharacterClass createOrUpdateInRealm:realm withValue:data];
+        [characterClass.features removeAllObjects];
+        
+        [element enumerateElementsWithCSS:@"autolevel" usingBlock:^(ONOXMLElement *levelElement, NSUInteger idx, BOOL *stop) {
+            [levelElement enumerateElementsWithCSS:@"feature" usingBlock:^(ONOXMLElement *featureElement, NSUInteger idx, BOOL *stop) {
+                __block NSString *text;
+                [featureElement enumerateElementsWithCSS:@"text" usingBlock:^(ONOXMLElement *element, NSUInteger idx, BOOL *stop) {
+                    NSString *newText = [[element stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    if (newText && ![newText isEqualToString:@""]) {
+                        text = (text) ? [text stringByAppendingFormat:@"\n%@", newText] : newText;
+                    }
+                }];
+                
+                NSString *featureName = [[featureElement firstChildWithTag:@"name"] stringValue];
+                Feature *feature = [Feature createOrUpdateInRealm:realm withValue:@{
+                                                                                    @"name" : featureName,
+                                                                                    @"identifier" : [NSString stringWithFormat:@"%@ - %@", characterClass.name, featureName],
+                                                                                    @"text" : text,
+                                                                                    @"optional" : @(!![featureElement valueForAttribute:@"optional"]),
+                                                                                    @"level" : @([[levelElement valueForAttribute:@"level"] integerValue])
+                                                                                    }];
+                [characterClass.features addObject:feature];
+            }];
         }];
     }];
     

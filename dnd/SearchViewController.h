@@ -11,7 +11,8 @@
 typedef enum : NSUInteger {
     SearchViewControllerTypeSpell,
     SearchViewControllerTypeItem,
-    SearchViewControllerTypeMonster
+    SearchViewControllerTypeMonster,
+    SearchViewControllerTypeCharacterClass
 } SearchViewControllerType;
 
 typedef enum : NSUInteger {

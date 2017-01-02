@@ -5,16 +5,21 @@
 //  Created by Devon Tivona on 11/18/16.
 //  Copyright © 2016 Tivona & Porter. All rights reserved.
 //
+#import <AsyncDisplayKit/AsyncDisplayKit.h>
+#import <Masonry/Masonry.h>
+#import <Realm/Realm.h>
+#import <MMPopupView/MMAlertView.h>
 
 #import "MasterViewController.h"
 #import "CollectionViewController.h"
-#import <Realm/Realm.h>
 #import "Collection.h"
+#import "CollectionCellNode.h"
 
-@interface MasterViewController ()
+@interface MasterViewController () <ASTableDelegate, ASTableDataSource>
 
 @property (nonatomic, strong) RLMResults *collections;
 @property (nonatomic, strong) RLMNotificationToken *notificationToken;
+@property (nonatomic, strong) ASTableNode *tableNode;
 
 @end
 
@@ -23,34 +28,51 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.tableNode = [[ASTableNode alloc] initWithStyle:UITableViewStylePlain];
+    self.tableNode.dataSource = self;
+    self.tableNode.delegate = self;
+    [self.view addSubview:self.tableNode.view];
 
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    self.navigationItem.title = @"Collections";
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    self.collectionViewController = (CollectionViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    
+    [self.view setNeedsUpdateConstraints];
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     self.collections = [[Collection allObjectsInRealm:realm] sortedResultsUsingProperty:@"name" ascending:YES];
     
     __weak typeof(self) weakSelf = self;
     self.notificationToken = [self.collections addNotificationBlock:^(RLMResults<Collection *> *results, RLMCollectionChange *change, NSError *error) {
-        if (error) {
-            NSLog(@"Failed to open Realm on background worker: %@", error);
-            return;
-        }
+        if (error) return;
+        if (!change) [weakSelf.tableNode reloadData];
         
-        UITableView *tableView = weakSelf.tableView;
-        if (!change) {
-            [tableView reloadData];
-            return;
-        }
-        
-        [tableView beginUpdates];
-        [tableView deleteRowsAtIndexPaths:[change deletionsInSection:0] withRowAnimation:UITableViewRowAnimationFade];
-        [tableView insertRowsAtIndexPaths:[change insertionsInSection:0] withRowAnimation:UITableViewRowAnimationFade];
-        [tableView reloadRowsAtIndexPaths:[change modificationsInSection:0] withRowAnimation:UITableViewRowAnimationFade];
-        [tableView endUpdates];
+        [weakSelf.tableNode performBatchAnimated:YES updates:^{
+            [weakSelf.tableNode deleteRowsAtIndexPaths:[change deletionsInSection:0] withRowAnimation:UITableViewRowAnimationFade];
+            [weakSelf.tableNode insertRowsAtIndexPaths:[change insertionsInSection:0] withRowAnimation:UITableViewRowAnimationFade];
+            [weakSelf.tableNode reloadRowsAtIndexPaths:[change modificationsInSection:0] withRowAnimation:UITableViewRowAnimationFade];
+        } completion:nil];
+    }];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if ([self.tableNode indexPathForSelectedRow]) {
+        [self.tableNode deselectRowAtIndexPath:[self.tableNode indexPathForSelectedRow] animated:YES];
+    }
+}
+
+- (void)updateViewConstraints
+{
+    [super updateViewConstraints];
+    [self.tableNode.view mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
     }];
 }
 
@@ -59,90 +81,65 @@
     [self.notificationToken stop];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
-    [super viewWillAppear:animated];
-}
-
-
 - (void)insertNewObject:(id)sender
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Start a new collection"
-                                                                   message:nil
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"New collection";
-        textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
-        textField.autocorrectionType = UITextAutocorrectionTypeYes;
+    MMAlertView *alert = [[MMAlertView alloc] initWithInputTitle:@"Start a new collection" detail:nil placeholder:@"New collection" handler:^(NSString *name) {
+        [alert hide];
+        if (!name || [name isEqualToString:@""]) name = @"New collection";
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        [realm beginWriteTransaction];
+        [Collection createInRealm:realm withValue:@{ @"name" : name }];
+        [realm commitWriteTransaction];
     }];
-    
-    [alert addAction: [UIAlertAction actionWithTitle:@"Cancel"
-                                               style:UIAlertActionStyleCancel
-                                             handler:nil]];
-    
-    [alert addAction:[UIAlertAction actionWithTitle:@"Create"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *action) {
-                                                UITextField *textField = alert.textFields.firstObject;
-                                                NSString *name = textField.text;
-                                                if (!name || [name isEqualToString:@""]) name = @"New collection";
-                                                
-                                                RLMRealm *realm = [RLMRealm defaultRealm];
-                                                [realm beginWriteTransaction];
-                                                [Collection createInRealm:realm withValue:@{ @"name" : name }];
-                                                [realm commitWriteTransaction];
-                                            }]];
-    
-    [self presentViewController:alert animated:YES completion:nil];
+    [alert showWithBlock:nil];
 }
 
-#pragma mark - Segues
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Collection *collection = self.collections[indexPath.row];
-        CollectionViewController *controller = (CollectionViewController *)[[segue destinationViewController] topViewController];
-        controller.collection = collection;
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
-    }
+    [super setEditing:editing animated:animated];
+    [self.tableNode.view setEditing:editing animated:animated];
 }
 
+#pragma mark - UITableViewDataSource
 
-#pragma mark - Table View
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableNode:(ASTableNode *)tableNode
 {
     return 1;
 }
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableNode:(ASTableNode *)tableNode numberOfRowsInSection:(NSInteger)section
 {
     return self.collections.count;
 }
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableNode:(ASTableNode *)tableNode didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     Collection *collection = self.collections[indexPath.row];
-    cell.textLabel.text = collection.name;
+    
+    CollectionViewController *collectionViewController = [[CollectionViewController alloc] init];
+    collectionViewController.collection = collection;
+    UINavigationController *collectionNavigationController = [[UINavigationController alloc] initWithRootViewController:collectionViewController];
+    
+    collectionViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    collectionViewController.navigationItem.leftItemsSupplementBackButton = YES;
+    
+    UISplitViewController *splitController = (UISplitViewController *)self.parentViewController;
+    [splitController showDetailViewController:collectionNavigationController sender:self];
+}
+
+- (ASCellNode *)tableNode:(ASTableNode *)tableNode nodeForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Collection *collection = self.collections[indexPath.row];
+    CollectionCellNode *cell = [CollectionCellNode collectionCellNodeWithCollection:collection];
     return cell;
 }
 
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (BOOL)tableView:(ASTableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
 
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(ASTableNode *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Collection *collection = self.collections[indexPath.row];
@@ -154,6 +151,5 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
-
 
 @end

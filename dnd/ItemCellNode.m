@@ -16,6 +16,7 @@
 @interface ItemCellNode ()
 
 @property (nonatomic, strong) ASTextNode *nameLabel;
+@property (nonatomic, strong) ASTextNode *subtitleLabel;
 @property (nonatomic, strong) DetailLabelNode *typeLabel;
 @property (nonatomic, strong) DetailLabelNode *modifierLabel;
 @property (nonatomic, strong) DetailLabelNode *weightLabel;
@@ -52,7 +53,7 @@
 
         self.typeLabel = [[DetailLabelNode alloc] init];
         self.typeLabel.title = @"Type";
-        self.typeLabel.value = item.type;
+        self.typeLabel.value = [item typeString];
         
         self.modifierLabel = [[DetailLabelNode alloc] init];
         self.modifierLabel.title = @"Modifier";
@@ -91,7 +92,9 @@
         self.stealthLabel.value = item.stealth;
         
         self.textLabel = [ASTextNode linkedTextNodeWithAttributedString:[item.text stringWithBodyTextStyle]];
-        
+    } else {
+        self.subtitleLabel = [[ASTextNode alloc] init];
+        self.subtitleLabel.attributedText = [[item typeString] stringWithTextStyle:UIFontTextStyleCaption1];
     }
     
     return self;
@@ -105,15 +108,15 @@
     
     id<ASLayoutElement> child;
     
-    ASStackLayoutSpec *nameSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                                                          spacing:10.0f
-                                                                   justifyContent:ASStackLayoutJustifyContentSpaceBetween
-                                                                       alignItems:ASStackLayoutAlignItemsStretch
-                                                                         children:@[
-                                                                                    self.nameLabel,
-                                                                                    self.imageNode]];
-    
     if (self.detailed) {
+        ASStackLayoutSpec *nameSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
+                                                                              spacing:10.0f
+                                                                       justifyContent:ASStackLayoutJustifyContentSpaceBetween
+                                                                           alignItems:ASStackLayoutAlignItemsStretch
+                                                                             children:@[
+                                                                                        self.nameLabel,
+                                                                                        self.imageNode]];
+        
         ASInsetLayoutSpec *nameInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(0.0f, 0.0f, 10.0f, 0.0f) child:nameSpec];
         
         NSMutableArray *secondRowChildren = [[NSMutableArray alloc] init];
@@ -139,10 +142,25 @@
                                                                   secondRow,
                                                                   self.textLabel]];
     } else {
-        child = nameSpec;
+        ASStackLayoutSpec *nameSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                                                                              spacing:0.0f
+                                                                       justifyContent:ASStackLayoutJustifyContentStart
+                                                                           alignItems:ASStackLayoutAlignItemsStart
+                                                                             children:@[self.subtitleLabel,
+                                                                                        self.nameLabel]];
+        nameSpec.style.flexShrink = 1.0f;
+        
+        ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
+                                                                               spacing:10.0f
+                                                                        justifyContent:ASStackLayoutJustifyContentSpaceBetween
+                                                                            alignItems:ASStackLayoutAlignItemsCenter
+                                                                              children:@[nameSpec,
+                                                                                         self.imageNode]];
+        
+        child = stackSpec;
     }
     
-    ASInsetLayoutSpec *insetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(20.0f, 20.0f, 20.0f, 20.0f)
+    ASInsetLayoutSpec *insetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f)
                                                                           child:child];
     return insetSpec;
 }
