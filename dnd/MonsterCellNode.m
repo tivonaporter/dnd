@@ -65,10 +65,12 @@
     self.imageNode.image = [UIImage imageNamed:@"monster-icon"];
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    formatter.maximumFractionDigits = 1;
+    formatter.maximumFractionDigits = 3;
     formatter.minimumFractionDigits = 0;
     formatter.minimumIntegerDigits = 1;
     NSString *challengeRatingString = [formatter stringFromNumber:monster.challengeRating];
+    NSString *XPString = [formatter stringFromNumber:@([monster XP])];
+    challengeRatingString = [NSString stringWithFormat:@"%@ (%@ XP)", challengeRatingString, XPString];
     
     if (self.detailed) {
         

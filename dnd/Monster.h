@@ -37,4 +37,6 @@
 @property RLMArray<Trait *><Trait> *traits;
 @property RLMArray<Action *><Action> *actions;
 
+- (NSUInteger)XP;
+
 @end
