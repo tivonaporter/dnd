@@ -18,7 +18,8 @@
     if (attributedString) {
         NSString *string = attributedString.string;
         NSMutableAttributedString *mutableAttributedString = [attributedString mutableCopy];
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"((\\d+d{1}\\d+)(( *\\++ *)|))+(((\\d+d{1}\\d+)|\\d)(( *\\++ *)|))*" options:0 error:nil];
+        NSString *pattern = @"((\\d+d{1}\\d+)(( *(\\+|\\-)+ *)|))+(((\\d+d{1}\\d+)|\\d)(( *(\\+|\\-)+ *)|))*";
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
         NSArray *matches = [regex matchesInString:string options:0 range:NSMakeRange(0, string.length)];
         
         NSString *DiceNodeLink = @"DiceNodeLink";

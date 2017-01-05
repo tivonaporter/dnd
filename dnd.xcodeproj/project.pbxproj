@@ -39,7 +39,6 @@
 		915430F71DE0072900832AE5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 915430F61DE0072900832AE5 /* main.m */; };
 		915430FA1DE0072900832AE5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 915430F91DE0072900832AE5 /* AppDelegate.m */; };
 		915430FD1DE0072900832AE5 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 915430FC1DE0072900832AE5 /* MasterViewController.m */; };
-		915431051DE0072900832AE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 915431041DE0072900832AE5 /* Assets.xcassets */; };
 		915431081DE0072900832AE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 915431061DE0072900832AE5 /* LaunchScreen.storyboard */; };
 		915431101DE0090600832AE5 /* PHB Spells 3.8.1.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9154310F1DE0090600832AE5 /* PHB Spells 3.8.1.xml */; };
 		9160B7231DE281EF0043795B /* Monster.m in Sources */ = {isa = PBXBuildFile; fileRef = 9160B7221DE281EF0043795B /* Monster.m */; };
@@ -60,6 +59,8 @@
 		C0E6CB361E19E30600561234 /* CharacterClassCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E6CB351E19E30600561234 /* CharacterClassCellNode.m */; };
 		C0E6CB391E19FF1400561234 /* Feature.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E6CB381E19FF1400561234 /* Feature.m */; };
 		C0E6CB3C1E1A03D100561234 /* FeatureNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E6CB3B1E1A03D100561234 /* FeatureNode.m */; };
+		C0F1BCB41E1CC0180032A4F0 /* AbilityScoreNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F1BCB31E1CC0180032A4F0 /* AbilityScoreNode.m */; };
+		C0F1BCB61E1CCC7C0032A4F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0F1BCB51E1CCC7B0032A4F0 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,7 +110,6 @@
 		915430F91DE0072900832AE5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		915430FB1DE0072900832AE5 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		915430FC1DE0072900832AE5 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		915431041DE0072900832AE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		915431071DE0072900832AE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		915431091DE0072900832AE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9154310F1DE0090600832AE5 /* PHB Spells 3.8.1.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "PHB Spells 3.8.1.xml"; sourceTree = "<group>"; };
@@ -148,6 +148,9 @@
 		C0E6CB381E19FF1400561234 /* Feature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feature.m; sourceTree = "<group>"; };
 		C0E6CB3A1E1A03D100561234 /* FeatureNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureNode.h; sourceTree = "<group>"; };
 		C0E6CB3B1E1A03D100561234 /* FeatureNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureNode.m; sourceTree = "<group>"; };
+		C0F1BCB21E1CC0180032A4F0 /* AbilityScoreNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbilityScoreNode.h; sourceTree = "<group>"; };
+		C0F1BCB31E1CC0180032A4F0 /* AbilityScoreNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbilityScoreNode.m; sourceTree = "<group>"; };
+		C0F1BCB51E1CCC7B0032A4F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +179,8 @@
 			children = (
 				911D9D431DEB8FFD0079A0BA /* DetailLabelNode.h */,
 				911D9D441DEB8FFD0079A0BA /* DetailLabelNode.m */,
+				C0F1BCB21E1CC0180032A4F0 /* AbilityScoreNode.h */,
+				C0F1BCB31E1CC0180032A4F0 /* AbilityScoreNode.m */,
 				917A0FEE1E123C260045D97A /* ActionNode.h */,
 				917A0FEF1E123C260045D97A /* ActionNode.m */,
 				917A0FF11E1243630045D97A /* TraitNode.h */,
@@ -303,8 +308,8 @@
 				911D767E1DE0D8E600E5167D /* Cells */,
 				911D767C1DE0D8DC00E5167D /* Views */,
 				911D767D1DE0D8E000E5167D /* Models */,
-				915431041DE0072900832AE5 /* Assets.xcassets */,
 				915431061DE0072900832AE5 /* LaunchScreen.storyboard */,
+				C0F1BCB51E1CCC7B0032A4F0 /* Assets.xcassets */,
 				915431091DE0072900832AE5 /* Info.plist */,
 				911D76801DE0D8F300E5167D /* Documents */,
 				915430F51DE0072900832AE5 /* Supporting Files */,
@@ -407,6 +412,7 @@
 				915431101DE0090600832AE5 /* PHB Spells 3.8.1.xml in Resources */,
 				911D76C01DE130CB00E5167D /* Magic Items 5.1.xml in Resources */,
 				911D76D31DE1310A00E5167D /* Player Bestiary 2.4.0.xml in Resources */,
+				C0F1BCB61E1CCC7C0032A4F0 /* Assets.xcassets in Resources */,
 				911D76B61DE130BF00E5167D /* EE Spells 2.6.xml in Resources */,
 				911D76D11DE1310A00E5167D /* Out of the Abyss 1.3.0.xml in Resources */,
 				911D76B71DE130BF00E5167D /* Modern Spells 1.1.xml in Resources */,
@@ -424,7 +430,6 @@
 				911D76BF1DE130CB00E5167D /* Futuristic Items 1.2.xml in Resources */,
 				915431081DE0072900832AE5 /* LaunchScreen.storyboard in Resources */,
 				911D76C11DE130CB00E5167D /* Modern Items 1.2.xml in Resources */,
-				915431051DE0072900832AE5 /* Assets.xcassets in Resources */,
 				911D76D21DE1310A00E5167D /* Phandelver Bestiary 1.2.1.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,6 +490,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				911D9D511DEB94100079A0BA /* ItemCellNode.m in Sources */,
+				C0F1BCB41E1CC0180032A4F0 /* AbilityScoreNode.m in Sources */,
 				917A0FFD1E13970E0045D97A /* RollManager.m in Sources */,
 				911D76D91DE1320300E5167D /* Item.m in Sources */,
 				9160B7291DE288060043795B /* Action.m in Sources */,

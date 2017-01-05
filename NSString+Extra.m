@@ -29,4 +29,13 @@
     return [[NSAttributedString alloc] initWithString:self attributes:attributes];
 }
 
++ (NSString *)modifierStringForAbilityScore:(NSNumber *)score
+{
+    NSInteger modifier = (NSInteger)floorf([score floatValue] / 2 - 5);
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setPositiveFormat:@"+0"];
+    [formatter setNegativeFormat:@"-0"];
+    return [formatter stringFromNumber:@(modifier)];
+}
+
 @end

@@ -6,7 +6,6 @@
 //  Copyright © 2016 Tivona & Porter. All rights reserved.
 //
 
-#import <MBProgressHUD/MBProgressHUD.h>
 #import <MMPopupView/MMAlertView.h>
 
 #import "AppDelegate.h"
@@ -124,41 +123,7 @@
 - (void)textNode:(ASTextNode *)textNode tappedLinkAttribute:(NSString *)attribute value:(id)value atPoint:(CGPoint)point textRange:(NSRange)textRange
 {
     RollResult roll = [RollManager resultOfRollString:value];
-    NSString *reaction = @"";
-    NSString *prefix = @"";
-    
-    switch (roll.quality) {
-        case RollQualityTerrible:
-            reaction = @"🖕";
-            prefix = @"Bugbears!";
-            break;
-        case RollQualityBad:
-            reaction = @"👎";
-            prefix = @"Darn.";
-            break;
-        case RollQualityAverage:
-            reaction = @"👍";
-            break;
-        case RollQualityGood:
-            reaction = @"🙌";
-            prefix = @"Yay!";
-            break;
-        case RollQualityGreat:
-            reaction = @"🎉";
-            prefix = @"Praise Tymora!";
-            break;
-    }
-    
-    NSString *title = [NSString stringWithFormat:@"%@ You got %lu.", prefix, (unsigned long)roll.result];
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:window animated:YES];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [HUD hideAnimated:YES];
-        NSArray *items = @[MMItemMake(reaction, MMItemTypeNormal, nil)];
-        MMAlertView *alert = [[MMAlertView alloc] initWithTitle:title detail:nil items:items];
-        [alert showWithBlock:nil];
-    });
+    [RollManager showAlertForRollResult:roll];
 }
 
 - (BOOL)textNode:(ASTextNode *)textNode shouldHighlightLinkAttribute:(NSString *)attribute value:(id)value atPoint:(CGPoint)point

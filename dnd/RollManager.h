@@ -17,10 +17,10 @@ typedef enum : NSUInteger {
 } RollQuality;
 
 struct RollResult {
-    NSUInteger result;
-    NSUInteger bestResult;
-    NSUInteger worstResult;
-    NSUInteger averageResult;
+    NSInteger result;
+    NSInteger bestResult;
+    NSInteger worstResult;
+    NSInteger averageResult;
     RollQuality quality;
 };
 typedef struct RollResult RollResult;
@@ -28,5 +28,6 @@ typedef struct RollResult RollResult;
 @interface RollManager : NSObject
 
 + (RollResult)resultOfRollString:(NSString *)string;
++ (void)showAlertForRollResult:(RollResult)roll;
 
 @end

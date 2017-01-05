@@ -10,6 +10,8 @@
 
 @interface NSString (Extra)
 
++ (NSString *)modifierStringForAbilityScore:(NSNumber *)score;
+
 - (NSAttributedString *)stringWithTextStyle:(UIFontTextStyle)textStyle;
 - (NSAttributedString *)stringWithBodyTextStyle;
 

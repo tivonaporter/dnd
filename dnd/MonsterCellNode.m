@@ -8,6 +8,7 @@
 
 #import "MonsterCellNode.h"
 #import "DetailLabelNode.h"
+#import "AbilityScoreNode.h"
 #import "Monster.h"
 #import "NSString+Extra.h"
 #import "TraitNode.h"
@@ -20,12 +21,12 @@
 
 @property (nonatomic, strong) ASTextNode *nameLabel;
 @property (nonatomic, strong) ASTextNode *detailLabel;
-@property (nonatomic, strong) DetailLabelNode *strengthLabel;
-@property (nonatomic, strong) DetailLabelNode *dexterityLabel;
-@property (nonatomic, strong) DetailLabelNode *constitutionLabel;
-@property (nonatomic, strong) DetailLabelNode *intelligenceLabel;
-@property (nonatomic, strong) DetailLabelNode *wisdomLabel;
-@property (nonatomic, strong) DetailLabelNode *charismaLabel;
+@property (nonatomic, strong) AbilityScoreNode *strengthLabel;
+@property (nonatomic, strong) AbilityScoreNode *dexterityLabel;
+@property (nonatomic, strong) AbilityScoreNode *constitutionLabel;
+@property (nonatomic, strong) AbilityScoreNode *intelligenceLabel;
+@property (nonatomic, strong) AbilityScoreNode *wisdomLabel;
+@property (nonatomic, strong) AbilityScoreNode *charismaLabel;
 
 @property (nonatomic, strong) DetailLabelNode *sizeLabel;
 @property (nonatomic, strong) DetailLabelNode *alignmentLabel;
@@ -74,30 +75,17 @@
     
     if (self.detailed) {
         
-        self.strengthLabel = [[DetailLabelNode alloc] init];
-        self.strengthLabel.title = @"STR";
-        self.strengthLabel.value = [monster.strength stringValue];
+        self.strengthLabel = [AbilityScoreNode abilityScoreNodeWithTitle:@"STR" score:monster.strength];
         
-        self.dexterityLabel = [[DetailLabelNode alloc] init];
-        self.dexterityLabel.title = @"DEX";
-        self.dexterityLabel.value = [monster.dexterity stringValue];
+        self.dexterityLabel = [AbilityScoreNode abilityScoreNodeWithTitle:@"DEX" score:monster.dexterity];
         
-        self.constitutionLabel = [[DetailLabelNode alloc] init];
-        self.constitutionLabel.title = @"CON";
-        self.constitutionLabel.value = [monster.constitution stringValue];
+        self.constitutionLabel = [AbilityScoreNode abilityScoreNodeWithTitle:@"CON" score:monster.constitution];
         
-        self.intelligenceLabel = [[DetailLabelNode alloc] init];
-        self.intelligenceLabel.title = @"INT";
-        self.intelligenceLabel.value = [monster.intelligence stringValue];
+        self.intelligenceLabel = [AbilityScoreNode abilityScoreNodeWithTitle:@"INT" score:monster.intelligence];
         
-        self.wisdomLabel = [[DetailLabelNode alloc] init];
-        self.wisdomLabel.title = @"WIS";
-        self.wisdomLabel.value = [monster.wisdom stringValue];
+        self.wisdomLabel = [AbilityScoreNode abilityScoreNodeWithTitle:@"WIS" score:monster.wisdom];
         
-        self.charismaLabel = [[DetailLabelNode alloc] init];
-        self.charismaLabel.title = @"CHA";
-        self.charismaLabel.value = [monster.charisma stringValue];
-        self.charismaLabel.alignment = NSTextAlignmentRight;
+        self.charismaLabel = [AbilityScoreNode abilityScoreNodeWithTitle:@"CHA" score:monster.charisma];
         
         self.sizeLabel = [[DetailLabelNode alloc] init];
         self.sizeLabel.title = @"Size";
