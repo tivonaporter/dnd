@@ -29,6 +29,7 @@
 
 @property (nonatomic, strong) RLMNotificationToken *notificationToken;
 @property (nonatomic, strong) ASTableNode *tableNode;
+@property (nonatomic, strong) RLMResults *results;
 
 @end
 
@@ -52,7 +53,7 @@
     [self.view addSubview:self.tableNode.view];
     
     __weak typeof(self) weakSelf = self;
-    self.notificationToken = [self.collection.items addNotificationBlock:^(RLMArray<CollectionItem *> *results, RLMCollectionChange *change, NSError *error) {
+    self.notificationToken = [self.results addNotificationBlock:^(RLMResults * _Nullable results, RLMCollectionChange * _Nullable change, NSError * _Nullable error) {
         if (error) return;
         if (!change) [weakSelf.tableNode reloadData];
         
@@ -149,6 +150,17 @@
 {
     _collection = collection;
     self.navigationItem.title = collection.name;
+    
+    NSArray *descriptors = @[
+                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"characterClass.name" ascending:YES],
+                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"spell.level" ascending:YES],
+                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"spell.name" ascending:YES],
+                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"item.name" ascending:YES],
+                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"monster.challengeRating" ascending:YES],
+                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"monster.name" ascending:YES],
+                             ];
+    
+    self.results = [self.collection.items sortedResultsUsingDescriptors:descriptors];
 }
 
 - (void)dealloc
@@ -165,12 +177,12 @@
 
 - (NSInteger)tableNode:(ASTableNode *)tableNode numberOfRowsInSection:(NSInteger)section
 {
-    return self.collection.items.count;
+    return self.results.count;
 }
 
 - (void)tableNode:(ASTableNode *)tableNode didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CollectionItem *collectionItem = [self.collection.items objectAtIndex:indexPath.row];
+    CollectionItem *collectionItem = [self.results objectAtIndex:indexPath.row];
     DetailViewController *viewController;
     if (collectionItem.spell) {
         viewController = [[DetailViewController alloc] initWithObject:collectionItem.spell mode:DetailViewControllerModeView];
@@ -187,7 +199,7 @@
 
 - (ASCellNodeBlock)tableNode:(ASTableNode *)tableNode nodeBlockForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    CollectionItem *collectionItem = [self.collection.items objectAtIndex:indexPath.row];
+    CollectionItem *collectionItem = [self.results objectAtIndex:indexPath.row];
     NSString *collectionItemId = collectionItem.identifier;
     
     return ^ASCellNode *() {
@@ -222,7 +234,7 @@
 - (void)tableView:(ASTableNode *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        CollectionItem *item = self.collection.items[indexPath.row];
+        CollectionItem *item = self.results[indexPath.row];
         RLMRealm *realm = [RLMRealm defaultRealm];
         [realm beginWriteTransaction];
         [realm deleteObject:item];

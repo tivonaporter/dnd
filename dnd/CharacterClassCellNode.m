@@ -61,7 +61,7 @@
     }
     
     NSMutableArray *featureNodes = [[NSMutableArray alloc] init];
-    for (Feature *feature in [characterClass.features sortedResultsUsingProperty:@"level" ascending:YES]) {
+    for (Feature *feature in [characterClass.features sortedResultsUsingKeyPath:@"level" ascending:YES]) {
         [featureNodes addObject:[[FeatureNode alloc] initWithFeature:feature]];
     }
     self.featureNodes = featureNodes;

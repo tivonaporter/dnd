@@ -380,7 +380,7 @@
 				TargetAttributes = {
 					915430F11DE0072900832AE5 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 65AZ9F33C7;
+						DevelopmentTeam = P6N4VATRHL;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -633,10 +633,10 @@
 			baseConfigurationReference = 6FB310F86C010E4D49B0923E /* Pods-dnd.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 65AZ9F33C7;
+				DEVELOPMENT_TEAM = P6N4VATRHL;
 				INFOPLIST_FILE = dnd/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tivonaporter.dnd;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tivonaporter.dungeons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -646,10 +646,10 @@
 			baseConfigurationReference = B6040763D338DF53AE88B540 /* Pods-dnd.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 65AZ9F33C7;
+				DEVELOPMENT_TEAM = P6N4VATRHL;
 				INFOPLIST_FILE = dnd/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tivonaporter.dnd;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tivonaporter.dungeons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

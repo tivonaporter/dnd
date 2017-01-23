@@ -54,19 +54,19 @@
     self.results = [objectClass performSelector:@selector(allObjects)];
     switch (self.type) {
         case SearchViewControllerTypeSpell: {
-            RLMSortDescriptor *levelDescriptor = [RLMSortDescriptor sortDescriptorWithProperty:@"level" ascending:YES];
-            RLMSortDescriptor *nameDescriptor = [RLMSortDescriptor sortDescriptorWithProperty:@"name" ascending:YES];
+            RLMSortDescriptor *levelDescriptor = [RLMSortDescriptor sortDescriptorWithKeyPath:@"level" ascending:YES];
+            RLMSortDescriptor *nameDescriptor = [RLMSortDescriptor sortDescriptorWithKeyPath:@"name" ascending:YES];
             self.results = [self.results sortedResultsUsingDescriptors:@[levelDescriptor, nameDescriptor]];
             break;
         }
         case SearchViewControllerTypeItem:
-            self.results = [self.results sortedResultsUsingProperty:@"name" ascending:YES];
+            self.results = [self.results sortedResultsUsingKeyPath:@"name" ascending:YES];
             break;
         case SearchViewControllerTypeMonster:
-            self.results = [self.results sortedResultsUsingProperty:@"challengeRating" ascending:YES];
+            self.results = [self.results sortedResultsUsingKeyPath:@"challengeRating" ascending:YES];
             break;
         case SearchViewControllerTypeCharacterClass:
-            self.results = [self.results sortedResultsUsingProperty:@"name" ascending:YES];
+            self.results = [self.results sortedResultsUsingKeyPath:@"name" ascending:YES];
             break;
         default:
             break;
@@ -158,7 +158,7 @@
     
     NSPredicate *newPredicate = [NSPredicate predicateWithFormat:@"name CONTAINS[c] %@", self.searchController.searchBar.text];
     self.filteredResults = [objectClass performSelector:@selector(objectsWithPredicate:) withObject:newPredicate];
-    self.filteredResults = [self.filteredResults sortedResultsUsingProperty:@"name" ascending:YES];
+    self.filteredResults = [self.filteredResults sortedResultsUsingKeyPath:@"name" ascending:YES];
     [self.tableView reloadData];
 }
 

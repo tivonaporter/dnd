@@ -26,9 +26,9 @@ PODS:
   - PINRemoteImage/PINCache (3.0.0-beta.6):
     - PINCache (= 3.0.1-beta.2)
     - PINRemoteImage/Core
-  - Realm (2.0.3):
-    - Realm/Headers (= 2.0.3)
-  - Realm/Headers (2.0.3)
+  - Realm (2.3.0):
+    - Realm/Headers (= 2.3.0)
+  - Realm/Headers (2.3.0)
 
 DEPENDENCIES:
   - AsyncDisplayKit (>= 2.0-beta.1)
@@ -37,7 +37,7 @@ DEPENDENCIES:
   - MBProgressHUD
   - MMPopupView
   - Ono
-  - Realm
+  - Realm (>= 2.3)
 
 SPEC CHECKSUMS:
   AsyncDisplayKit: 4d4403eb61b2b667866e98ca8b7fab6cec497b68
@@ -48,8 +48,8 @@ SPEC CHECKSUMS:
   Ono: 80b1c686777d3f6d5d5ce6fcac8a74afef4ca197
   PINCache: 6d273a6e0754bd26e3f12a38a90dde73cc6a42b2
   PINRemoteImage: 60156f185c9360ca4e93832cd490d6f6c7afbd9a
-  Realm: 5f008bfe3c8c47142eddfc30b8c1584cde22db24
+  Realm: 69d7de9aa569a11eed490aaabc8f2109e3985ecf
 
-PODFILE CHECKSUM: 704523a96dba1c81560be7bde0c747be453654e1
+PODFILE CHECKSUM: d3edb62b01efa88e60ec93df49c7d7a62cff4f92
 
 COCOAPODS: 1.1.1

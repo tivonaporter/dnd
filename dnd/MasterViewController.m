@@ -45,7 +45,7 @@
     [self.view setNeedsUpdateConstraints];
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    self.collections = [[Collection allObjectsInRealm:realm] sortedResultsUsingProperty:@"name" ascending:YES];
+    self.collections = [[Collection allObjectsInRealm:realm] sortedResultsUsingKeyPath:@"name" ascending:YES];
     
     __weak typeof(self) weakSelf = self;
     self.notificationToken = [self.collections addNotificationBlock:^(RLMResults<Collection *> *results, RLMCollectionChange *change, NSError *error) {

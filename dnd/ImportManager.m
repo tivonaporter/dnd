@@ -59,6 +59,8 @@
     [realm beginWriteTransaction];
     
     // Items
+    NSRegularExpression *nameRegex = [NSRegularExpression regularExpressionWithPattern:@"\\d+ *\\w{1}P{1} *-{1} *" options:0 error:nil];
+    
     [document enumerateElementsWithCSS:@"item" usingBlock:^(ONOXMLElement *element, NSUInteger idx, BOOL *stop) {
         NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
         
@@ -85,7 +87,18 @@
         if (damage) [data setObject:damage forKey:@"damage"];
         
         NSString *name = [[element firstChildWithTag:@"name"] stringValue];
-        if (name) [data setObject:name forKey:@"name"];
+        if (name) {
+            NSRange range = NSMakeRange(0, name.length);
+            NSString *newName = [nameRegex stringByReplacingMatchesInString:name options:0 range:range withTemplate:@""];
+            if (newName && ![newName isEqualToString:@""]) [data setObject:newName forKey:@"name"];
+            
+            NSTextCheckingResult *result = [nameRegex firstMatchInString:name options:0 range:range];
+            NSString *value = [name substringWithRange:result.range];
+            if (value) {
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" -"]];
+                if (value && ![value isEqualToString:@""]) [data setObject:value forKey:@"value"];
+            }
+        }
         
         NSString *type = [[element firstChildWithTag:@"type"] stringValue];
         if (type) [data setObject:type forKey:@"type"];
@@ -140,7 +153,7 @@
         if (range) [data setObject:range forKey:@"range"];
         
         NSString *components = [[element firstChildWithTag:@"components"] stringValue];
-        if (components) [data setObject:components forKey:@"compenents"];
+        if (components) [data setObject:components forKey:@"components"];
         
         NSString *duration = [[element firstChildWithTag:@"duration"] stringValue];
         if (duration) [data setObject:duration forKey:@"duration"];

@@ -22,6 +22,7 @@
 @property NSString *range;
 @property NSString *stealth;
 @property NSString *text;
+@property NSString *value;
 
 - (NSString *)typeString;
 

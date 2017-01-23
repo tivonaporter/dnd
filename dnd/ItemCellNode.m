@@ -43,8 +43,13 @@
     
     self.automaticallyManagesSubnodes = YES;
     
+    NSString *nameString = item.name;
+    if (item.value && ![item.value isEqualToString:@""]) {
+        nameString = [NSString stringWithFormat:@"%@ (%@)", item.name, item.value];
+    }
+    
     self.nameLabel = [[ASTextNode alloc] init];
-    self.nameLabel.attributedText = [item.name stringWithTextStyle:UIFontTextStyleTitle2];
+    self.nameLabel.attributedText = [nameString stringWithTextStyle:UIFontTextStyleTitle2];
     
     self.imageNode = [[ASImageNode alloc] init];
     self.imageNode.image = [UIImage imageNamed:@"item-icon"];
