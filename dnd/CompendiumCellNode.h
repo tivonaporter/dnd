@@ -12,7 +12,8 @@ typedef enum : NSUInteger {
     CompendiumNodeTypeSpell,
     CompendiumNodeTypeItem,
     CompendiumNodeTypeMonster,
-    CompendiumNodeTypeClass
+    CompendiumNodeTypeClass,
+    CompendiumNodeTypeRace
 } CompendiumNodeType;
 
 @interface CompendiumCellNode : ASCellNode

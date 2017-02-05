@@ -26,7 +26,7 @@
     
     node.automaticallyManagesSubnodes = YES;
     node.nameLabel = [[ASTextNode alloc] init];
-    node.nameLabel.attributedText = [collection.name stringWithTextStyle:UIFontTextStyleTitle2];
+    node.nameLabel.attributedText = [collection.name stringWithSecondaryTitleTextStyle];
     
     return node;
 }

@@ -60,7 +60,6 @@
     self.detailed = detailed;
     
     self.nameLabel = [[ASTextNode alloc] init];
-    self.nameLabel.attributedText = [monster.name stringWithTextStyle:UIFontTextStyleTitle2];
     
     self.imageNode = [[ASImageNode alloc] init];
     self.imageNode.image = [UIImage imageNamed:@"monster-icon"];
@@ -74,6 +73,8 @@
     challengeRatingString = [NSString stringWithFormat:@"%@ (%@ XP)", challengeRatingString, XPString];
     
     if (self.detailed) {
+        
+        self.nameLabel.attributedText = [monster.name stringWithPrimaryTitleTextStyle];
         
         self.strengthLabel = [AbilityScoreNode abilityScoreNodeWithTitle:@"STR" score:monster.strength];
         
@@ -155,6 +156,7 @@
         }
         self.actionNodes = actionNodes;
     } else {
+        self.nameLabel.attributedText = [monster.name stringWithSecondaryTitleTextStyle];
         self.detailLabel = [[ASTextNode alloc] init];
         self.detailLabel.attributedText = [[NSString stringWithFormat:@"CR %@", challengeRatingString] stringWithTextStyle:UIFontTextStyleCaption1];
     }

@@ -49,12 +49,12 @@
     }
     
     self.nameLabel = [[ASTextNode alloc] init];
-    self.nameLabel.attributedText = [nameString stringWithTextStyle:UIFontTextStyleTitle2];
     
     self.imageNode = [[ASImageNode alloc] init];
     self.imageNode.image = [UIImage imageNamed:@"item-icon"];
     
     if (self.detailed) {
+        self.nameLabel.attributedText = [nameString stringWithPrimaryTitleTextStyle];
 
         self.typeLabel = [[DetailLabelNode alloc] init];
         self.typeLabel.title = @"Type";
@@ -98,6 +98,7 @@
         
         self.textLabel = [ASTextNode linkedTextNodeWithAttributedString:[item.text stringWithBodyTextStyle]];
     } else {
+        self.nameLabel.attributedText = [nameString stringWithSecondaryTitleTextStyle];
         self.subtitleLabel = [[ASTextNode alloc] init];
         self.subtitleLabel.attributedText = [[item typeString] stringWithTextStyle:UIFontTextStyleCaption1];
     }

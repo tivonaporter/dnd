@@ -19,6 +19,7 @@ typedef enum : NSUInteger {
     CompendiumRowItem,
     CompendiumRowMonster,
     CompendiumRowClass,
+    CompendiumRowRace,
     CompendiumRowCount
 } CompendiumRow;
 
@@ -38,7 +39,7 @@ typedef enum : NSUInteger {
     self.navigationItem.title = @"Compendium";
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumInteritemSpacing = 20.0f;
+    layout.minimumInteritemSpacing = 15.0f;
     layout.minimumLineSpacing = layout.minimumInteritemSpacing;
     CGFloat size = ([UIScreen mainScreen].bounds.size.width - (layout.minimumInteritemSpacing * 3.0f)) / 2.0f;
     layout.itemSize = CGSizeMake(size, size);
@@ -88,6 +89,9 @@ typedef enum : NSUInteger {
         case CompendiumRowClass:
             searchViewController.type = SearchViewControllerTypeCharacterClass;
             break;
+        case CompendiumRowRace:
+            searchViewController.type = SearchViewControllerTypeRace;
+            break;
     }
     [self.navigationController pushViewController:searchViewController animated:YES];
     [self.collectionNode deselectItemAtIndexPath:indexPath animated:YES];
@@ -109,6 +113,9 @@ typedef enum : NSUInteger {
                 break;
             case CompendiumRowClass:
                 cellNode = [CompendiumCellNode compendiumNodeWithType:CompendiumNodeTypeClass];
+                break;
+            case CompendiumRowRace:
+                cellNode = [CompendiumCellNode compendiumNodeWithType:CompendiumNodeTypeRace];
                 break;
         }
         return cellNode;

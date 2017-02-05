@@ -12,7 +12,9 @@
 
 + (NSString *)modifierStringForAbilityScore:(NSNumber *)score;
 
-- (NSAttributedString *)stringWithTextStyle:(UIFontTextStyle)textStyle;
+- (NSAttributedString *)stringWithPrimaryTitleTextStyle;
+- (NSAttributedString *)stringWithSecondaryTitleTextStyle;
 - (NSAttributedString *)stringWithBodyTextStyle;
+- (NSAttributedString *)stringWithTextStyle:(UIFontTextStyle)textStyle;
 
 @end

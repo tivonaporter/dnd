@@ -18,10 +18,12 @@
 #import "Item.h"
 #import "Monster.h"
 #import "CharacterClass.h"
+#import "Race.h"
 #import "SpellCellNode.h"
 #import "ItemCellNode.h"
 #import "MonsterCellNode.h"
 #import "CharacterClassCellNode.h"
+#import "RaceCellNode.h"
 
 @interface SearchViewController () <UISearchResultsUpdating, ASTableDelegate, ASTableDataSource, UITableViewDelegate, UITableViewDataSource>
 
@@ -68,6 +70,9 @@
         case SearchViewControllerTypeCharacterClass:
             self.results = [self.results sortedResultsUsingKeyPath:@"name" ascending:YES];
             break;
+        case SearchViewControllerTypeRace:
+            self.results = [self.results sortedResultsUsingKeyPath:@"name" ascending:YES];
+            break;
         default:
             break;
     }
@@ -111,6 +116,9 @@
                 case SearchViewControllerTypeCharacterClass:
                     self.navigationItem.title = @"Add a Class";
                     break;
+                case SearchViewControllerTypeRace:
+                    self.navigationItem.title = @"Add a Race";
+                    break;
                 default:
                     break;
             }
@@ -128,6 +136,9 @@
                     break;
                 case SearchViewControllerTypeCharacterClass:
                     self.navigationItem.title = @"Classes";
+                    break;
+                case SearchViewControllerTypeRace:
+                    self.navigationItem.title = @"Races";
                     break;
                 default:
                     break;
@@ -170,6 +181,7 @@
         case SearchViewControllerTypeItem: objectClass = [Item class]; break;
         case SearchViewControllerTypeMonster: objectClass = [Monster class]; break;
         case SearchViewControllerTypeCharacterClass: objectClass = [CharacterClass class]; break;
+        case SearchViewControllerTypeRace: objectClass = [Race class]; break;
         default: break;
     }
     return objectClass;
@@ -234,6 +246,10 @@
             CharacterClass *characterClass = (CharacterClass *)object;
             cell.textLabel.text = characterClass.name;
         }
+        case SearchViewControllerTypeRace: {
+            Race *race = (Race *)object;
+            cell.textLabel.text = race.name;
+        }
     };
     
     return cell;
@@ -266,6 +282,7 @@
         case SearchViewControllerTypeItem: identifier = ((Item *)object).name;
         case SearchViewControllerTypeMonster: identifier = ((Monster *)object).name;
         case SearchViewControllerTypeCharacterClass: identifier = ((CharacterClass *)object).name;
+        case SearchViewControllerTypeRace: identifier = ((Race *)object).name;
     };
     
     __weak typeof(self) weakSelf = self;
@@ -292,6 +309,12 @@
             case SearchViewControllerTypeCharacterClass: {
                 CharacterClass *characterClass = [CharacterClass objectForPrimaryKey:identifier];
                 CharacterClassCellNode *cell = [[CharacterClassCellNode alloc] initWithCharacterClass:characterClass detailed:NO];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return cell;
+            }
+            case SearchViewControllerTypeRace: {
+                Race *race = [Race objectForPrimaryKey:identifier];
+                RaceCellNode *cell = [[RaceCellNode alloc] initWithRace:race detailed:NO];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }

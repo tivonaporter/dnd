@@ -29,6 +29,7 @@
     CompendiumViewController *compendiumViewController = [[CompendiumViewController alloc] init];
     UINavigationController *compendiumNavigationController = [[UINavigationController alloc] initWithRootViewController:compendiumViewController];
     compendiumNavigationController.tabBarItem.title = @"Compendium";
+    compendiumNavigationController.tabBarItem.image = [UIImage imageNamed:@"compendium-tab-icon"];
     
     UISplitViewController *splitViewController = [[UISplitViewController alloc] init];
     

@@ -41,12 +41,13 @@
     self.automaticallyManagesSubnodes = YES;
     
     self.nameLabel = [[ASTextNode alloc] init];
-    self.nameLabel.attributedText = [spell.name stringWithTextStyle:UIFontTextStyleTitle2];
     
     self.imageNode = [[ASImageNode alloc] init];
     self.imageNode.image = [UIImage imageNamed:@"spell-icon"];
     
     if (self.detailed) {
+        self.nameLabel.attributedText = [spell.name stringWithPrimaryTitleTextStyle];
+        
         self.levelLabel = [[DetailLabelNode alloc] init];
         self.levelLabel.title = @"Level";
         self.levelLabel.value = spell.level;
@@ -77,6 +78,7 @@
         
         self.textLabel = [ASTextNode linkedTextNodeWithAttributedString:[spell.text stringWithBodyTextStyle]];
     } else {
+        self.nameLabel.attributedText = [spell.name stringWithSecondaryTitleTextStyle];
         NSString *levelString = [NSString stringWithFormat:@"Level %@", spell.level];
         self.detailLabel = [[ASTextNode alloc] init];
         self.detailLabel.attributedText = [levelString stringWithTextStyle:UIFontTextStyleCaption1];

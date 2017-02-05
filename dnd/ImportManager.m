@@ -11,6 +11,7 @@
 #import "Item.h"
 #import "Monster.h"
 #import "CharacterClass.h"
+#import "Race.h"
 #import "Trait.h"
 #import "Action.h"
 #import <Realm/Realm.h>
@@ -22,7 +23,7 @@
 + (void)import
 {
     NSArray *files = @[
-                       @"Classes",
+                       @"Character Compendium",
                        @"Curse of Strahd Bestiary 1.1.0",
                        @"Hoard of the Dragon Queen Bestiary 1.2.2",
                        @"Monster Manual Bestiary 2.5.0",
@@ -296,6 +297,45 @@
                                                                                     }];
                 [characterClass.features addObject:feature];
             }];
+        }];
+    }];
+    
+    // Races
+    [document enumerateElementsWithCSS:@"race" usingBlock:^(ONOXMLElement *element, NSUInteger idx, BOOL *stop) {
+        NSString *raceName = [[element firstChildWithTag:@"name"] stringValue];
+        
+        NSMutableDictionary *data = [@{
+                                       @"name" : raceName,
+                                       @"size" : [[element firstChildWithTag:@"size"] stringValue],
+                                       @"speed" : [[element firstChildWithTag:@"speed"] numberValue]
+                                       } mutableCopy];
+        
+        NSString *ability = [[element firstChildWithTag:@"ability"] stringValue];
+        if (ability && ![ability isEqualToString:@""]) [data setObject:ability forKey:@"ability"];
+        
+        NSString *proficiency = [[element firstChildWithTag:@"proficiency"] stringValue];
+        if (proficiency && ![proficiency isEqualToString:@""]) [data setObject:proficiency forKey:@"proficiency"];
+        
+        Race *race = [Race createOrUpdateInRealm:realm withValue:data];
+        [race.traits removeAllObjects];
+        
+        [element enumerateElementsWithCSS:@"trait" usingBlock:^(ONOXMLElement *actionElement, NSUInteger idx, BOOL *stop) {
+            __block NSString *text;
+            [actionElement enumerateElementsWithCSS:@"text" usingBlock:^(ONOXMLElement *element, NSUInteger idx, BOOL *stop) {
+                NSString *newText = [[element stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                if (newText && ![newText isEqualToString:@""]) {
+                    text = (text) ? [text stringByAppendingFormat:@"\n%@", newText] : newText;
+                }
+            }];
+            
+            NSString *actionName = [[actionElement firstChildWithTag:@"name"] stringValue];
+            NSDictionary *actionData = @{
+                                         @"name" : actionName,
+                                         @"identifier" : [NSString stringWithFormat:@"%@ - %@", raceName, actionName],
+                                         @"text": text
+                                         };
+            Trait *trait = [Trait createOrUpdateInRealm:realm withValue:actionData];
+            [race.traits addObject:trait];
         }];
     }];
     

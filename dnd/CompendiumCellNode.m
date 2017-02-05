@@ -29,7 +29,7 @@
     node.automaticallyManagesSubnodes = YES;
     node.clipsToBounds = NO;
     
-    CGFloat cornerRadius = 3.0f;
+    CGFloat cornerRadius = 5.0f;
     
     NSString *name;
     UIImage *image;
@@ -52,14 +52,20 @@
         case CompendiumNodeTypeMonster:
             name = @"Monsters";
             image = [UIImage imageNamed:@"monster-card-icon"];
-            firstColor = [UIColor colorWithHexString:@"F8FF58"];
+            firstColor = [UIColor colorWithHexString:@"F8E04E"];
             secondColor = [UIColor colorWithHexString:@"FF5F00"];
             break;
         case CompendiumNodeTypeClass:
             name = @"Classes";
             image = [UIImage imageNamed:@"class-card-icon"];
-            firstColor = [UIColor colorWithHexString:@"FF512F"];
+            firstColor = [UIColor colorWithHexString:@"FF8C51"];
             secondColor = [UIColor colorWithHexString:@"DD2476"];
+            break;
+        case CompendiumNodeTypeRace:
+            name = @"Races";
+            image = [UIImage imageNamed:@"race-card-icon"];
+            firstColor = [UIColor colorWithHexString:@"69E396"];
+            secondColor = [UIColor colorWithHexString:@"0C886E"];
             break;
     }
     
@@ -79,12 +85,7 @@
     }];
     
     node.nameNode = [[ASTextNode alloc] init];
-    
-    NSDictionary *attributes = @{
-                                 NSFontAttributeName: [UIFont systemFontOfSize:16.0f weight:UIFontWeightHeavy],
-                                 NSForegroundColorAttributeName: [UIColor blackColor]
-                                 };
-    node.nameNode.attributedText = [[NSAttributedString alloc] initWithString:name attributes:attributes];
+    node.nameNode.attributedText = [name stringWithSecondaryTitleTextStyle];
     
     node.imageNode = [[ASImageNode alloc] init];
     node.imageNode.image = [image add_tintedImageWithColor:[UIColor whiteColor] style:ADDImageTintStyleKeepingAlpha];

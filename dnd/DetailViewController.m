@@ -15,16 +15,19 @@
 #import "MonsterCellNode.h"
 #import "CharacterClassCellNode.h"
 #import "ItemCellNode.h"
+#import "RaceCellNode.h"
 #import "Spell.h"
 #import "Monster.h"
 #import "Item.h"
 #import "CharacterClass.h"
+#import "Race.h"
 
 typedef enum : NSUInteger {
     DetailViewControllerTypeSpell,
     DetailViewControllerTypeItem,
     DetailViewControllerTypeMonster,
-    DetailViewControllerTypeCharacterClass
+    DetailViewControllerTypeCharacterClass,
+    DetailViewControllerTypeRace
 } DetailViewControllerType;
 
 @interface DetailViewController () <ASTableDelegate, ASTableDataSource>
@@ -52,8 +55,10 @@ typedef enum : NSUInteger {
         self.type = DetailViewControllerTypeMonster;
     } else if ([self.object isKindOfClass:[CharacterClass class]]) {
         self.type = DetailViewControllerTypeCharacterClass;
+    } else if ([self.object isKindOfClass:[Race class]]) {
+        self.type = DetailViewControllerTypeRace;
     }
-    
+
     if (self.mode == DetailViewControllerModeAdd) {
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Confirm" style:UIBarButtonItemStyleDone target:self action:@selector(addButtonTapped)];
         self.navigationItem.rightBarButtonItem = addButton;
@@ -101,6 +106,7 @@ typedef enum : NSUInteger {
         case DetailViewControllerTypeItem: identifier = ((Item *)self.object).name; break;
         case DetailViewControllerTypeMonster: identifier = ((Monster *)self.object).name; break;
         case DetailViewControllerTypeCharacterClass: identifier = ((CharacterClass *)self.object).name; break;
+        case DetailViewControllerTypeRace: identifier = ((Race *)self.object).name; break;
     };
     
     __weak typeof(self) weakSelf = self;
@@ -127,6 +133,12 @@ typedef enum : NSUInteger {
             case DetailViewControllerTypeCharacterClass: {
                 CharacterClass *characterClass = [CharacterClass objectForPrimaryKey:identifier];
                 CharacterClassCellNode *cell = [[CharacterClassCellNode alloc] initWithCharacterClass:characterClass detailed:YES];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return cell;
+            }
+            case DetailViewControllerTypeRace: {
+                Race *race = [Race objectForPrimaryKey:identifier];
+                RaceCellNode *cell = [[RaceCellNode alloc] initWithRace:race detailed:YES];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }

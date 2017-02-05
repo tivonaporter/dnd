@@ -11,6 +11,7 @@
 #import "Item.h"
 #import "Monster.h"
 #import "CharacterClass.h"
+#import "Race.h"
 
 @interface CollectionItem : RLMObject
 
@@ -18,6 +19,7 @@
 @property Item *item;
 @property Monster *monster;
 @property CharacterClass *characterClass;
+@property Race *race;
 @property NSString *identifier;
 
 @end

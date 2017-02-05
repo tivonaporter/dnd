@@ -17,6 +17,24 @@
     return [self stringWithTextStyle:UIFontTextStyleBody paragraphStyle:style];
 }
 
+- (NSAttributedString *)stringWithPrimaryTitleTextStyle
+{
+    NSDictionary *attributes = @{
+                                 NSFontAttributeName: [UIFont systemFontOfSize:22.0f weight:UIFontWeightHeavy],
+                                 NSForegroundColorAttributeName: [UIColor blackColor]
+                                 };
+    return [[NSAttributedString alloc] initWithString:self attributes:attributes];
+}
+
+- (NSAttributedString *)stringWithSecondaryTitleTextStyle
+{
+    NSDictionary *attributes = @{
+                                 NSFontAttributeName: [UIFont systemFontOfSize:16.0f weight:UIFontWeightHeavy],
+                                 NSForegroundColorAttributeName: [UIColor blackColor]
+                                 };
+    return [[NSAttributedString alloc] initWithString:self attributes:attributes];
+}
+
 - (NSAttributedString *)stringWithTextStyle:(UIFontTextStyle)textStyle
 {
     return [self stringWithTextStyle:textStyle paragraphStyle:nil];

@@ -17,10 +17,12 @@
 #import "MonsterCellNode.h"
 #import "CharacterClassCellNode.h"
 #import "ItemCellNode.h"
+#import "RaceCellNode.h"
 #import "Spell.h"
 #import "Monster.h"
 #import "Item.h"
 #import "CharacterClass.h"
+#import "Race.h"
 #import "Collection.h"
 #import "CollectionItem.h"
 #import "DetailViewController.h"
@@ -134,6 +136,19 @@
         [self presentViewController:navigationController animated:YES completion:nil];
     }]];
     
+    [alert addAction:[UIAlertAction actionWithTitle:@"Race" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        searchViewController.type = SearchViewControllerTypeRace;
+        searchViewController.selectionAction = ^(id selectedItem) {
+            Race *race = (Race *)selectedItem;
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            [realm beginWriteTransaction];
+            CollectionItem *collectionItem = [CollectionItem createInRealm:realm withValue:@{ @"race" : race }];
+            [self.collection.items addObject:collectionItem];
+            [realm commitWriteTransaction];
+        };
+        [self presentViewController:navigationController animated:YES completion:nil];
+    }]];
+    
     [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
     UIPopoverPresentationController *popover = alert.popoverPresentationController;
@@ -158,6 +173,7 @@
                              [RLMSortDescriptor sortDescriptorWithKeyPath:@"item.name" ascending:YES],
                              [RLMSortDescriptor sortDescriptorWithKeyPath:@"monster.challengeRating" ascending:YES],
                              [RLMSortDescriptor sortDescriptorWithKeyPath:@"monster.name" ascending:YES],
+                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"race.name" ascending:YES],
                              ];
     
     self.results = [self.collection.items sortedResultsUsingDescriptors:descriptors];
@@ -192,6 +208,8 @@
         viewController = [[DetailViewController alloc] initWithObject:collectionItem.monster mode:DetailViewControllerModeView];
     } else if (collectionItem.characterClass) {
         viewController = [[DetailViewController alloc] initWithObject:collectionItem.characterClass mode:DetailViewControllerModeView];
+    } else if (collectionItem.race) {
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.race mode:DetailViewControllerModeView];
     }
 
     [self.navigationController pushViewController:viewController animated:YES];
@@ -219,6 +237,10 @@
             return cell;
         } else if (threadCollectionItem.characterClass) {
             CharacterClassCellNode *cell = [[CharacterClassCellNode alloc] initWithCharacterClass:threadCollectionItem.characterClass detailed:NO];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+        } else if (threadCollectionItem.race) {
+            RaceCellNode *cell = [[RaceCellNode alloc] initWithRace:threadCollectionItem.race detailed:NO];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }

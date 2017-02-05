@@ -54,6 +54,8 @@
 		91844EA51DE0AC3D002B0057 /* Spell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91844EA41DE0AC3D002B0057 /* Spell.m */; };
 		C0161BEC1E19D39B004A203F /* Character Compendium.xml in Resources */ = {isa = PBXBuildFile; fileRef = C0161BEB1E19D39B004A203F /* Character Compendium.xml */; };
 		C0161BEF1E19D818004A203F /* CharacterClass.m in Sources */ = {isa = PBXBuildFile; fileRef = C0161BEE1E19D818004A203F /* CharacterClass.m */; };
+		C02A5E7F1E479C3A008EE862 /* Race.m in Sources */ = {isa = PBXBuildFile; fileRef = C02A5E7E1E479C3A008EE862 /* Race.m */; };
+		C02A5E821E47A032008EE862 /* RaceCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C02A5E811E47A032008EE862 /* RaceCellNode.m */; };
 		C02E0CAF1E4657D90043CD16 /* CompendiumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C02E0CAE1E4657D90043CD16 /* CompendiumViewController.m */; };
 		C02E0CB21E4676D40043CD16 /* CompendiumCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C02E0CB11E4676D40043CD16 /* CompendiumCellNode.m */; };
 		C0CA6A2D1E17390D00F9C556 /* CollectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CA6A2C1E17390D00F9C556 /* CollectionCellNode.m */; };
@@ -141,6 +143,10 @@
 		C0161BEB1E19D39B004A203F /* Character Compendium.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Character Compendium.xml"; sourceTree = "<group>"; };
 		C0161BED1E19D818004A203F /* CharacterClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterClass.h; sourceTree = "<group>"; };
 		C0161BEE1E19D818004A203F /* CharacterClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterClass.m; sourceTree = "<group>"; };
+		C02A5E7D1E479C3A008EE862 /* Race.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Race.h; sourceTree = "<group>"; };
+		C02A5E7E1E479C3A008EE862 /* Race.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Race.m; sourceTree = "<group>"; };
+		C02A5E801E47A032008EE862 /* RaceCellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RaceCellNode.h; sourceTree = "<group>"; };
+		C02A5E811E47A032008EE862 /* RaceCellNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RaceCellNode.m; sourceTree = "<group>"; };
 		C02E0CAD1E4657D90043CD16 /* CompendiumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompendiumViewController.h; sourceTree = "<group>"; };
 		C02E0CAE1E4657D90043CD16 /* CompendiumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompendiumViewController.m; sourceTree = "<group>"; };
 		C02E0CB01E4676D40043CD16 /* CompendiumCellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompendiumCellNode.h; sourceTree = "<group>"; };
@@ -206,6 +212,10 @@
 				911D76851DE0EBB400E5167D /* Collection.m */,
 				9160B7211DE281EF0043795B /* Monster.h */,
 				9160B7221DE281EF0043795B /* Monster.m */,
+				C0161BED1E19D818004A203F /* CharacterClass.h */,
+				C0161BEE1E19D818004A203F /* CharacterClass.m */,
+				C02A5E7D1E479C3A008EE862 /* Race.h */,
+				C02A5E7E1E479C3A008EE862 /* Race.m */,
 				9160B7241DE287130043795B /* Trait.h */,
 				9160B7251DE287130043795B /* Trait.m */,
 				9160B7271DE288060043795B /* Action.h */,
@@ -214,8 +224,6 @@
 				911D76881DE0EBBF00E5167D /* CollectionItem.m */,
 				911D76D71DE1320300E5167D /* Item.h */,
 				911D76D81DE1320300E5167D /* Item.m */,
-				C0161BED1E19D818004A203F /* CharacterClass.h */,
-				C0161BEE1E19D818004A203F /* CharacterClass.m */,
 				C0E6CB371E19FF1400561234 /* Feature.h */,
 				C0E6CB381E19FF1400561234 /* Feature.m */,
 			);
@@ -237,6 +245,8 @@
 				911D9D501DEB94100079A0BA /* ItemCellNode.m */,
 				C0E6CB341E19E30600561234 /* CharacterClassCellNode.h */,
 				C0E6CB351E19E30600561234 /* CharacterClassCellNode.m */,
+				C02A5E801E47A032008EE862 /* RaceCellNode.h */,
+				C02A5E811E47A032008EE862 /* RaceCellNode.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -519,11 +529,13 @@
 				C0E6CB391E19FF1400561234 /* Feature.m in Sources */,
 				911D9D4B1DEB920F0079A0BA /* MonsterCellNode.m in Sources */,
 				911D76891DE0EBBF00E5167D /* CollectionItem.m in Sources */,
+				C02A5E821E47A032008EE862 /* RaceCellNode.m in Sources */,
 				917A10001E14BCE70045D97A /* CollectionViewController.m in Sources */,
 				911D9D481DEB908F0079A0BA /* NSString+Extra.m in Sources */,
 				917A0FF01E123C260045D97A /* ActionNode.m in Sources */,
 				917A0FF31E1243630045D97A /* TraitNode.m in Sources */,
 				911D76831DE0DEC500E5167D /* SearchViewController.m in Sources */,
+				C02A5E7F1E479C3A008EE862 /* Race.m in Sources */,
 				9160B7261DE287130043795B /* Trait.m in Sources */,
 				915430FD1DE0072900832AE5 /* MasterViewController.m in Sources */,
 				C02E0CAF1E4657D90043CD16 /* CompendiumViewController.m in Sources */,
