@@ -88,7 +88,7 @@
     
     node.imageNode = [[ASImageNode alloc] init];
     node.imageNode.image = [image add_tintedImageWithColor:[UIColor whiteColor] style:ADDImageTintStyleKeepingAlpha];
-    node.imageNode.style.preferredSize = CGSizeMake(30.0f, 30.0f);
+    node.imageNode.style.preferredSize = CGSizeMake(40.0f, 40.0f);
     
     return node;
 }
