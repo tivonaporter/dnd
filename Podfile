@@ -9,4 +9,6 @@ target 'dnd' do
   pod 'Masonry'
   pod 'BKDeltaCalculator'
   pod 'MMPopupView'
+  pod 'UIColor-HexString'
+  pod 'UIImage+Additions'
 end

@@ -12,8 +12,8 @@
 #import "CollectionViewController.h"
 #import "ImportManager.h"
 #import "RollManager.h"
-#import "SearchViewController.h"
 #import "MasterViewController.h"
+#import "CompendiumViewController.h"
 #import "NSString+Extra.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
@@ -25,6 +25,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [ImportManager import];
+    
+    CompendiumViewController *compendiumViewController = [[CompendiumViewController alloc] init];
+    UINavigationController *compendiumNavigationController = [[UINavigationController alloc] initWithRootViewController:compendiumViewController];
+    compendiumNavigationController.tabBarItem.title = @"Compendium";
     
     UISplitViewController *splitViewController = [[UISplitViewController alloc] init];
     
@@ -39,33 +43,9 @@
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
     
-    SearchViewController *spellSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
-    spellSearchViewController.type = SearchViewControllerTypeSpell;
-    UINavigationController *spellNavigationController = [[UINavigationController alloc] initWithRootViewController:spellSearchViewController];
-    spellNavigationController.tabBarItem.title = @"Spells";
-    spellNavigationController.tabBarItem.image = [UIImage imageNamed:@"spell-tab-icon"];
-    
-    SearchViewController *itemSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
-    itemSearchViewController.type = SearchViewControllerTypeItem;
-    UINavigationController *itemNavigationController = [[UINavigationController alloc] initWithRootViewController:itemSearchViewController];
-    itemNavigationController.tabBarItem.title = @"Items";
-    itemNavigationController.tabBarItem.image = [UIImage imageNamed:@"item-tab-icon"];
-    
-    SearchViewController *monsterSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
-    monsterSearchViewController.type = SearchViewControllerTypeMonster;
-    UINavigationController *monsterNavigationController = [[UINavigationController alloc] initWithRootViewController:monsterSearchViewController];
-    monsterNavigationController.tabBarItem.title = @"Monsters";
-    monsterNavigationController.tabBarItem.image = [UIImage imageNamed:@"monster-tab-icon"];
-    
-    SearchViewController *characterClassSearchViewController = [SearchViewController searchViewControllerWithMode:SearchViewControllerModeView];
-    characterClassSearchViewController.type = SearchViewControllerTypeCharacterClass;
-    UINavigationController *characterClassNavigationController = [[UINavigationController alloc] initWithRootViewController:characterClassSearchViewController];
-    characterClassNavigationController.tabBarItem.title = @"Classes";
-    characterClassNavigationController.tabBarItem.image = [UIImage imageNamed:@"class-tab-icon"];
-    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
-    tabBarController.viewControllers = @[spellNavigationController, itemNavigationController, monsterNavigationController, characterClassNavigationController, splitViewController];
+    tabBarController.viewControllers = @[compendiumNavigationController, splitViewController];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor blackColor];
