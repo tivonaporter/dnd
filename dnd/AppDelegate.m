@@ -14,6 +14,7 @@
 #import "RollManager.h"
 #import "MasterViewController.h"
 #import "CompendiumViewController.h"
+#import "SettingsViewController.h"
 #import "NSString+Extra.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
@@ -31,6 +32,11 @@
     compendiumNavigationController.tabBarItem.title = @"Compendium";
     compendiumNavigationController.tabBarItem.image = [UIImage imageNamed:@"compendium-tab-icon"];
     
+    SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
+    UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+    settingsNavigationController.tabBarItem.title = @"Settings";
+    settingsNavigationController.tabBarItem.image = [UIImage imageNamed:@"settings-tab-icon"];
+    
     UISplitViewController *splitViewController = [[UISplitViewController alloc] init];
     
     MasterViewController *masterViewController = [[MasterViewController alloc] init];
@@ -46,7 +52,7 @@
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
-    tabBarController.viewControllers = @[compendiumNavigationController, splitViewController];
+    tabBarController.viewControllers = @[compendiumNavigationController, splitViewController, settingsNavigationController];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor blackColor];

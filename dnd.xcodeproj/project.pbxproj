@@ -56,6 +56,7 @@
 		C0161BEF1E19D818004A203F /* CharacterClass.m in Sources */ = {isa = PBXBuildFile; fileRef = C0161BEE1E19D818004A203F /* CharacterClass.m */; };
 		C02A5E7F1E479C3A008EE862 /* Race.m in Sources */ = {isa = PBXBuildFile; fileRef = C02A5E7E1E479C3A008EE862 /* Race.m */; };
 		C02A5E821E47A032008EE862 /* RaceCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C02A5E811E47A032008EE862 /* RaceCellNode.m */; };
+		C02A5E851E47B5ED008EE862 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C02A5E841E47B5ED008EE862 /* SettingsViewController.m */; };
 		C02E0CAF1E4657D90043CD16 /* CompendiumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C02E0CAE1E4657D90043CD16 /* CompendiumViewController.m */; };
 		C02E0CB21E4676D40043CD16 /* CompendiumCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C02E0CB11E4676D40043CD16 /* CompendiumCellNode.m */; };
 		C0CA6A2D1E17390D00F9C556 /* CollectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CA6A2C1E17390D00F9C556 /* CollectionCellNode.m */; };
@@ -147,6 +148,8 @@
 		C02A5E7E1E479C3A008EE862 /* Race.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Race.m; sourceTree = "<group>"; };
 		C02A5E801E47A032008EE862 /* RaceCellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RaceCellNode.h; sourceTree = "<group>"; };
 		C02A5E811E47A032008EE862 /* RaceCellNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RaceCellNode.m; sourceTree = "<group>"; };
+		C02A5E831E47B5ED008EE862 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		C02A5E841E47B5ED008EE862 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		C02E0CAD1E4657D90043CD16 /* CompendiumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompendiumViewController.h; sourceTree = "<group>"; };
 		C02E0CAE1E4657D90043CD16 /* CompendiumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompendiumViewController.m; sourceTree = "<group>"; };
 		C02E0CB01E4676D40043CD16 /* CompendiumCellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompendiumCellNode.h; sourceTree = "<group>"; };
@@ -264,6 +267,8 @@
 				911D76821DE0DEC500E5167D /* SearchViewController.m */,
 				917A10011E14BDBB0045D97A /* DetailViewController.h */,
 				917A10021E14BDBB0045D97A /* DetailViewController.m */,
+				C02A5E831E47B5ED008EE862 /* SettingsViewController.h */,
+				C02A5E841E47B5ED008EE862 /* SettingsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -536,6 +541,7 @@
 				917A0FF31E1243630045D97A /* TraitNode.m in Sources */,
 				911D76831DE0DEC500E5167D /* SearchViewController.m in Sources */,
 				C02A5E7F1E479C3A008EE862 /* Race.m in Sources */,
+				C02A5E851E47B5ED008EE862 /* SettingsViewController.m in Sources */,
 				9160B7261DE287130043795B /* Trait.m in Sources */,
 				915430FD1DE0072900832AE5 /* MasterViewController.m in Sources */,
 				C02E0CAF1E4657D90043CD16 /* CompendiumViewController.m in Sources */,
@@ -659,6 +665,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = P6N4VATRHL;
 				INFOPLIST_FILE = dnd/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tivonaporter.dungeons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -672,6 +679,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = P6N4VATRHL;
 				INFOPLIST_FILE = dnd/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tivonaporter.dungeons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
