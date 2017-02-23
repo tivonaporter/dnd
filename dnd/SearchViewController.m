@@ -291,31 +291,26 @@
             case SearchViewControllerTypeSpell: {
                 Spell *spell = [Spell objectForPrimaryKey:identifier];
                 SpellCellNode *cell = [[SpellCellNode alloc] initWithSpell:spell detailed:NO];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }
             case SearchViewControllerTypeItem: {
                 Item *item = [Item objectForPrimaryKey:identifier];
                 ItemCellNode *cell = [[ItemCellNode alloc] initWithItem:item detailed:NO];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }
             case SearchViewControllerTypeMonster: {
                 Monster *monster = [Monster objectForPrimaryKey:identifier];
                 MonsterCellNode *cell = [[MonsterCellNode alloc] initWithMonster:monster detailed:NO];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }
             case SearchViewControllerTypeCharacterClass: {
                 CharacterClass *characterClass = [CharacterClass objectForPrimaryKey:identifier];
                 CharacterClassCellNode *cell = [[CharacterClassCellNode alloc] initWithCharacterClass:characterClass detailed:NO];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }
             case SearchViewControllerTypeRace: {
                 Race *race = [Race objectForPrimaryKey:identifier];
                 RaceCellNode *cell = [[RaceCellNode alloc] initWithRace:race detailed:NO];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }
             default: return nil;
@@ -327,6 +322,7 @@
 {
     id object = [self.results objectAtIndex:indexPath.row];
     [self showDetailViewControllerForObject:object];
+    [tableNode deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

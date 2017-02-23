@@ -39,7 +39,7 @@
     
     UISplitViewController *splitViewController = [[UISplitViewController alloc] init];
     
-    MasterViewController *masterViewController = [[MasterViewController alloc] init];
+    MasterViewController *masterViewController = [[MasterViewController alloc] initWithMode:MasterViewControllerModeView];
     UINavigationController *masterNavigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
     
     splitViewController.viewControllers = @[masterNavigationController];

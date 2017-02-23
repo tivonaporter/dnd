@@ -93,6 +93,7 @@
             CollectionItem *collectionItem = [CollectionItem createInRealm:realm withValue:@{ @"spell" : spell }];
             [self.collection.items addObject:collectionItem];
             [realm commitWriteTransaction];
+            [self dismissViewControllerAnimated:YES completion:nil];
         };
         [self presentViewController:navigationController animated:YES completion:nil];
     }]];
@@ -106,6 +107,7 @@
             CollectionItem *collectionItem = [CollectionItem createInRealm:realm withValue:@{ @"item" : item }];
             [self.collection.items addObject:collectionItem];
             [realm commitWriteTransaction];
+            [self dismissViewControllerAnimated:YES completion:nil];
         };
         [self presentViewController:navigationController animated:YES completion:nil];
     }]];
@@ -119,6 +121,7 @@
             CollectionItem *collectionItem = [CollectionItem createInRealm:realm withValue:@{ @"monster" : monster }];
             [self.collection.items addObject:collectionItem];
             [realm commitWriteTransaction];
+            [self dismissViewControllerAnimated:YES completion:nil];
         };
         [self presentViewController:navigationController animated:YES completion:nil];
     }]];
@@ -132,6 +135,7 @@
             CollectionItem *collectionItem = [CollectionItem createInRealm:realm withValue:@{ @"characterClass" : characterClass }];
             [self.collection.items addObject:collectionItem];
             [realm commitWriteTransaction];
+            [self dismissViewControllerAnimated:YES completion:nil];
         };
         [self presentViewController:navigationController animated:YES completion:nil];
     }]];
@@ -145,6 +149,7 @@
             CollectionItem *collectionItem = [CollectionItem createInRealm:realm withValue:@{ @"race" : race }];
             [self.collection.items addObject:collectionItem];
             [realm commitWriteTransaction];
+            [self dismissViewControllerAnimated:YES completion:nil];
         };
         [self presentViewController:navigationController animated:YES completion:nil];
     }]];
@@ -168,12 +173,12 @@
     
     NSArray *descriptors = @[
                              [RLMSortDescriptor sortDescriptorWithKeyPath:@"characterClass.name" ascending:YES],
+                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"race.name" ascending:YES],
                              [RLMSortDescriptor sortDescriptorWithKeyPath:@"spell.level" ascending:YES],
                              [RLMSortDescriptor sortDescriptorWithKeyPath:@"spell.name" ascending:YES],
                              [RLMSortDescriptor sortDescriptorWithKeyPath:@"item.name" ascending:YES],
                              [RLMSortDescriptor sortDescriptorWithKeyPath:@"monster.challengeRating" ascending:YES],
-                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"monster.name" ascending:YES],
-                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"race.name" ascending:YES],
+                             [RLMSortDescriptor sortDescriptorWithKeyPath:@"monster.name" ascending:YES]
                              ];
     
     self.results = [self.collection.items sortedResultsUsingDescriptors:descriptors];
@@ -201,15 +206,15 @@
     CollectionItem *collectionItem = [self.results objectAtIndex:indexPath.row];
     DetailViewController *viewController;
     if (collectionItem.spell) {
-        viewController = [[DetailViewController alloc] initWithObject:collectionItem.spell mode:DetailViewControllerModeView];
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.spell mode:DetailViewControllerModeViewInCollection];
     } else if (collectionItem.item) {
-        viewController = [[DetailViewController alloc] initWithObject:collectionItem.item mode:DetailViewControllerModeView];
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.item mode:DetailViewControllerModeViewInCollection];
     } else if (collectionItem.monster) {
-        viewController = [[DetailViewController alloc] initWithObject:collectionItem.monster mode:DetailViewControllerModeView];
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.monster mode:DetailViewControllerModeViewInCollection];
     } else if (collectionItem.characterClass) {
-        viewController = [[DetailViewController alloc] initWithObject:collectionItem.characterClass mode:DetailViewControllerModeView];
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.characterClass mode:DetailViewControllerModeViewInCollection];
     } else if (collectionItem.race) {
-        viewController = [[DetailViewController alloc] initWithObject:collectionItem.race mode:DetailViewControllerModeView];
+        viewController = [[DetailViewController alloc] initWithObject:collectionItem.race mode:DetailViewControllerModeViewInCollection];
     }
 
     [self.navigationController pushViewController:viewController animated:YES];

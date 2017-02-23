@@ -10,6 +10,7 @@
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
 #import <Realm/Realm.h>
 
+#import "MasterViewController.h"
 #import "DetailViewController.h"
 #import "SpellCellNode.h"
 #import "MonsterCellNode.h"
@@ -21,6 +22,8 @@
 #import "Item.h"
 #import "CharacterClass.h"
 #import "Race.h"
+#import "CollectionItem.h"
+#import "Collection.h"
 
 typedef enum : NSUInteger {
     DetailViewControllerTypeSpell,
@@ -61,6 +64,11 @@ typedef enum : NSUInteger {
 
     if (self.mode == DetailViewControllerModeAdd) {
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Confirm" style:UIBarButtonItemStyleDone target:self action:@selector(addButtonTapped)];
+        self.navigationItem.rightBarButtonItem = addButton;
+    }
+    
+    if (self.mode == DetailViewControllerModeView) {
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Add to Collection" style:UIBarButtonItemStyleDone target:self action:@selector(addButtonTapped)];
         self.navigationItem.rightBarButtonItem = addButton;
     }
     
@@ -149,8 +157,43 @@ typedef enum : NSUInteger {
 
 - (void)addButtonTapped
 {
-    if (self.selectionAction) self.selectionAction(self.object);
-    [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+    if (self.mode == DetailViewControllerModeAdd) {
+        if (self.selectionAction) self.selectionAction(self.object);
+    }
+    
+    if (self.mode == DetailViewControllerModeView) {
+        MasterViewController *masterViewController = [[MasterViewController alloc] initWithMode:MasterViewControllerModeAdd];
+        UINavigationController *masterNavigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+        [self presentViewController:masterNavigationController animated:YES completion:nil];
+        
+        masterViewController.selectionAction = ^(Collection *selectedCollection) {
+            CollectionItem *item = [[CollectionItem alloc] init];
+            switch (self.type) {
+                case DetailViewControllerTypeItem:
+                    item.item = (Item *)self.object;
+                    break;
+                case DetailViewControllerTypeSpell:
+                    item.spell = (Spell *)self.object;
+                    break;
+                case DetailViewControllerTypeMonster:
+                    item.monster = (Monster *)self.object;
+                    break;
+                case DetailViewControllerTypeCharacterClass:
+                    item.characterClass = (CharacterClass *)self.object;
+                    break;
+                case DetailViewControllerTypeRace:
+                    item.race = (Race *)self.object;
+                    break;
+                default:
+                    break;
+            }
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            [realm beginWriteTransaction];
+            [selectedCollection.items addObject:item];
+            [realm commitWriteTransaction];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        };
+    }
 }
 
 @end

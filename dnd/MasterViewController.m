@@ -20,10 +20,19 @@
 @property (nonatomic, strong) RLMResults *collections;
 @property (nonatomic, strong) RLMNotificationToken *notificationToken;
 @property (nonatomic, strong) ASTableNode *tableNode;
+@property (nonatomic, assign) MasterViewControllerMode mode;
 
 @end
 
 @implementation MasterViewController
+
+- (instancetype)initWithMode:(MasterViewControllerMode)mode
+{
+    if (!(self = [super init])) return nil;
+    self.mode = mode;
+    
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -36,11 +45,18 @@
     self.tableNode.delegate = self;
     [self.view addSubview:self.tableNode.view];
 
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-    self.navigationItem.title = @"Collections";
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    
+    if (self.mode == MasterViewControllerModeView) {
+        self.navigationItem.title = @"Collections";
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+        self.navigationItem.rightBarButtonItem = addButton;
+    }
+    
+    if (self.mode == MasterViewControllerModeAdd) {
+        self.navigationItem.title = @"Select a Collection";
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector (cancelButtonTapped)];
+        self.navigationItem.leftBarButtonItem = cancelButton;
+    }
     
     [self.view setNeedsUpdateConstraints];
     
@@ -58,14 +74,6 @@
             [weakSelf.tableNode reloadRowsAtIndexPaths:[change modificationsInSection:0] withRowAnimation:UITableViewRowAnimationFade];
         } completion:nil];
     }];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if ([self.tableNode indexPathForSelectedRow]) {
-        [self.tableNode deselectRowAtIndexPath:[self.tableNode indexPathForSelectedRow] animated:YES];
-    }
 }
 
 - (void)updateViewConstraints
@@ -94,6 +102,11 @@
     [alert showWithBlock:nil];
 }
 
+-(void)cancelButtonTapped
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
@@ -116,15 +129,23 @@
 {
     Collection *collection = self.collections[indexPath.row];
     
-    CollectionViewController *collectionViewController = [[CollectionViewController alloc] init];
-    collectionViewController.collection = collection;
-    UINavigationController *collectionNavigationController = [[UINavigationController alloc] initWithRootViewController:collectionViewController];
+    if (self.mode == MasterViewControllerModeView) {
+        CollectionViewController *collectionViewController = [[CollectionViewController alloc] init];
+        collectionViewController.collection = collection;
+        UINavigationController *collectionNavigationController = [[UINavigationController alloc] initWithRootViewController:collectionViewController];
+        
+        collectionViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        collectionViewController.navigationItem.leftItemsSupplementBackButton = YES;
+        
+        UISplitViewController *splitController = (UISplitViewController *)self.parentViewController;
+        [splitController showDetailViewController:collectionNavigationController sender:self];
+    }
     
-    collectionViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-    collectionViewController.navigationItem.leftItemsSupplementBackButton = YES;
+    if (self.mode == MasterViewControllerModeAdd) {
+        if (self.selectionAction) self.selectionAction(collection);
+    }
+    [tableNode deselectRowAtIndexPath:indexPath animated:YES];
     
-    UISplitViewController *splitController = (UISplitViewController *)self.parentViewController;
-    [splitController showDetailViewController:collectionNavigationController sender:self];
 }
 
 - (ASCellNode *)tableNode:(ASTableNode *)tableNode nodeForRowAtIndexPath:(NSIndexPath *)indexPath

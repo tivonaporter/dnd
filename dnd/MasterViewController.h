@@ -8,9 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@class CollectionViewController;
+typedef enum : NSUInteger {
+    MasterViewControllerModeView,
+    MasterViewControllerModeAdd
+} MasterViewControllerMode;
+
+@class CollectionViewController, Collection;
 
 @interface MasterViewController : UIViewController
+
+- (instancetype)initWithMode:(MasterViewControllerMode)mode;
+
+@property (nonatomic, copy) void (^selectionAction)(Collection *selectedCollection);
 
 @end
 

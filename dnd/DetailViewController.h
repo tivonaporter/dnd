@@ -10,6 +10,7 @@
 
 typedef enum : NSUInteger {
     DetailViewControllerModeView,
+    DetailViewControllerModeViewInCollection,
     DetailViewControllerModeAdd
 } DetailViewControllerMode;
 
